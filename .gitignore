@@ -3,6 +3,7 @@
 *.ko
 *.obj
 *.elf
+.DS_Store
 
 # Precompiled Headers
 *.gch
@@ -22,8 +23,6 @@
 
 # Executables
 *.exe
-*.out
-*.app
 *.i*86
 *.x86_64
 *.hex

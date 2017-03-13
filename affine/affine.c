@@ -127,7 +127,13 @@ char encrypt( char plain, int a, int b)
 
 char decrypt( char cipher, int a, int b )
 {
-    return 'A';
+    int inverse = extendEuclid( a, ALPHABET );
+    char output = cipher;
+    if ( isupper(cipher) )
+        output = ( ( inverse * ( cipher - 'A' - b + 26 ) ) % 26 ) + 'A';
+    else if ( islower(cipher) )
+        output = ( ( inverse * ( cipher - 'a' - b + 26 ) ) % 26 ) + 'a';
+    return output;
 }
 
 //------------------------------------------------------------------------------
