@@ -14,15 +14,8 @@ public class SDES
 {
     public static void main( String[] args )
     {
-        int keyInput = Integer.parseInt( "0101011010", 2 );
-        System.out.println( keyInput );
-        SDESBits key = new SDESBits( keyInput, 10 );
-        System.out.println( key.toString() );
-        System.out.println( key.getBit(2) );
-
-        key = key.permute( SDESConstants.P4 );
-
-        System.out.println( key.toString() );
+        int keyInput = Integer.parseInt( "1110101100", 2 );
+        SBESBits keys = keyGeneration( keyInput );
     }
 
 //---------------------------------------------------------------------------
@@ -37,7 +30,20 @@ public class SDES
 
 //---------------------------------------------------------------------------
 
-    //public static void keyGeneration() {}
+    public static SDESBits[] keyGeneration( int keyDec )
+    {
+        SDESBits key = new SDESBits( keyDec, 10 );
+        SDESBits[] subkeys = new SDESBits[2];
+
+        key = key.permute( SDESConstants.P10 );
+        key.leftShift(1);
+        subkeys[0] = key.permute( SDESConstants.P8 );
+
+        key.leftShift(2);
+        subkeys[1] = key.permute( SDESConstants.P8 );
+
+        return subkeys;
+    }
 
 //---------------------------------------------------------------------------
 

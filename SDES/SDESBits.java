@@ -43,7 +43,7 @@ public class SDESBits
     {
         SDESBits permuted = new SDESBits( 0, permTable.length );
         for ( int ii = 0; ii < permTable.length; ii++ )
-            permuted.setBit(getBit( permTable[ii] ), ii );
+            permuted.setBit( getBit( permTable[ii] ), ii );
         return permuted;
     }
 
@@ -57,10 +57,21 @@ public class SDESBits
             shifts %= half;
 
         int left = bits >>> half;
-        int right = ( bits & ( ( 1 << half ) - 1 ) ) >> half ;
+        int right = ( bits & ( ( 1 << half ) - 1 ) );
 
-        left = (left >>> shifts) | (shifts << ( half - shifts ) );
-        right = (right >>> shifts) | (shifts << ( half - shifts ) );
+        for ( int ii = 0; ii < shifts; ii++ )
+        {
+            int leftBit = ( left & ( 1 << ( half - 1 ) ) );
+            leftBit >>= 4;
+            int rightBit = ( right & ( 1 << ( half - 1 ) ) );
+            rightBit >>=4;
+
+            left = ( left << 1 ) & ( ( 1 << half ) - 1 );
+            right = ( right << 1 ) & ( ( 1 << half ) - 1 );
+
+            if ( leftBit == 1 )      left++;
+            if ( rightBit == 1 )     right++;
+        }
 
         bits = ( left << half ) | right;
     }
@@ -69,16 +80,16 @@ public class SDESBits
 
     public void setBit( boolean val, int index )
     {
-        bits &= ~(1 << index);
+        bits &= ~(1 << ( size - index - 1) );
         bits &= (1 << size)-1;
-        bits |= ((val) ? 1 : 0 ) << index;
+        bits |= ((val) ? 1 : 0 ) << ( size - index - 1 );
     }
 
 //---------------------------------------------------------------------------
 
     public boolean getBit( int index )
     {
-        return (bits & 1 << index) != 0;
+        return (bits & 1 << ( size - index - 1 ) ) != 0;
     }
 
 //---------------------------------------------------------------------------
