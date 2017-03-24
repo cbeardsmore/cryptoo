@@ -14,11 +14,14 @@ public class SDES
 {
     public static void main( String[] args )
     {
-        int num = Integer.parseInt( "11110000", 2 );
-        System.out.println( num );
-        SDESBits key = new SDESBits( num, 8 );
+        int keyInput = Integer.parseInt( "0101011010", 2 );
+        System.out.println( keyInput );
+        SDESBits key = new SDESBits( keyInput, 10 );
         System.out.println( key.toString() );
-        key.switchHalves();
+        System.out.println( key.getBit(2) );
+
+        key = key.permute( SDESConstants.P4 );
+
         System.out.println( key.toString() );
     }
 
