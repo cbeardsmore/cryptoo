@@ -14,33 +14,23 @@ public class SDES
 {
     public static void main( String[] args )
     {
-        FileInputStream fs = null;
-        String filename = "affine2.txt";
-
-		try
-		{
-			fs = new FileInputStream(filename);
-            byte[] hello = new byte[1];
-            char next;
-            while ( fs.read(hello) != -1 )
-            {
-                next = (char)hello[0];
-                System.out.print( next );
-
-            }
-
-
-			fs.close();
-		}
-		catch (IOException e)
-		{
-
-		}
+        int num = Integer.parseInt( "11110000", 2 );
+        System.out.println( num );
+        SDESBits key = new SDESBits( num, 8 );
+        System.out.println( key.toString() );
+        key.switchHalves();
+        System.out.println( key.toString() );
     }
 
 //---------------------------------------------------------------------------
+    // switchFunction()
+    // IMPORT: input (SDESBitSet)
+    // PURPOSE: Import 8-bit binary and swap the first and last 4 bits
 
-    //public static void switchFunction() {}
+    public static void switchFunction( SDESBits input )
+    {
+        input.switchHalves();
+    }
 
 //---------------------------------------------------------------------------
 
