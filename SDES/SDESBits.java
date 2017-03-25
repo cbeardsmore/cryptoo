@@ -78,6 +78,26 @@ public class SDESBits
 
 //---------------------------------------------------------------------------
 
+    public SDESBits[] split()
+    {
+        int half = size >> 1;
+        int leftInt = bits >>> half;
+        int rightInt = ( bits & ( ( 1 << half ) - 1 ) );
+        SDESBits[] halves = new SDESBits[2];
+        halves[0] = new SDESBits( leftInt, half );
+        halves[1] = new SDESBits( rightInt, half );
+        return halves;
+    }
+
+//---------------------------------------------------------------------------
+
+    public void xor( SDESBits subkey )
+    {
+        bits ^= subkey.bits;
+    }
+
+//---------------------------------------------------------------------------
+
     public void setBit( boolean val, int index )
     {
         bits &= ~(1 << ( size - index - 1) );
@@ -90,6 +110,33 @@ public class SDESBits
     public boolean getBit( int index )
     {
         return (bits & 1 << ( size - index - 1 ) ) != 0;
+    }
+
+//---------------------------------------------------------------------------
+
+    public void append( SDESBits newBits )
+    {
+        size += newBits.size;
+        bits = ( bits << newBits.size ) | newBits.bits;
+    }
+
+//---------------------------------------------------------------------------
+
+    public int sbox()
+    {
+        SDESBits halves[] = this.split();
+
+        int colS0 = ( halves[0].bits & 6 ) >>> 1;
+        int rowS0 = ( ( halves[0].bits & 8 ) >>> 2 ) | ( halves[0].bits & 1 );
+        int colS1 = ( halves[1].bits & 6 ) >>> 1;
+        int rowS1 = ( ( halves[1].bits & 8 ) >>> 2 ) | ( halves[1].bits & 1 );
+
+        int s0Val = SDESConstants.S0[rowS0][colS0];
+        int s1Val = SDESConstants.S1[rowS1][colS1];
+
+        int result = ( s0Val << 2 ) | s1Val;
+
+        return result;
     }
 
 //---------------------------------------------------------------------------

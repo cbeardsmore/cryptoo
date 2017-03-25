@@ -14,8 +14,24 @@ public class SDES
 {
     public static void main( String[] args )
     {
-        int keyInput = Integer.parseInt( "1110101100", 2 );
-        SBESBits keys = keyGeneration( keyInput );
+        String rawKey = "1110101100";
+        String rawMes = "11111111";
+
+        int intKey = Integer.parseInt( rawKey, 2 );
+        int intMes = Integer.parseInt( rawMes, 2 );
+
+        SDESBits subkeys[] = keyGeneration( intKey );
+        SDESBits message = new SDESBits( intMes, 8 );
+
+        message = message.permute( SDESConstants.IP );
+
+        message = feistalRound( message, subkeys[0] );
+
+        switchFunction( message );
+
+        message = feistalRound( message, subkeys[1] );
+
+        message = message.permute( SDESConstants.IPI );
     }
 
 //---------------------------------------------------------------------------
@@ -47,7 +63,25 @@ public class SDES
 
 //---------------------------------------------------------------------------
 
-    //public static void feistalRound() {}
+    public static SDESBits feistalRound( SDESBits message, SDESBits subkey )
+    {
+        SDESBits halves[] = message.split();
+        SDESBits fMap = fMapping( halves[1], subkey );
+        halves[0].xor( fMap );
+        halves[0].append(halves[1]);
+        return halves[0];
+    }
+
+//---------------------------------------------------------------------------
+
+    public static SDESBits fMapping( SDESBits message, SDESBits subkey )
+    {
+        message = message.permute( SDESConstants.EP );
+        message.xor( subkey );
+        message = new SDESBits( message.sbox() ,8 );
+        message = message.permute( SDESConstants.P4 );
+        return message;
+    }
 
 //---------------------------------------------------------------------------
 }
