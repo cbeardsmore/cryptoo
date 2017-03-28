@@ -14,8 +14,9 @@ public class SDES
 {
     public static void main( String[] args )
     {
+        char selection = 'd';
         String rawKey = "1110101100";
-        String rawMes = "11111111";
+        String rawMes = "01011001";
 
         int intKey = Integer.parseInt( rawKey, 2 );
         int intMes = Integer.parseInt( rawMes, 2 );
@@ -23,15 +24,37 @@ public class SDES
         SDESBits subkeys[] = keyGeneration( intKey );
         SDESBits message = new SDESBits( intMes, 8 );
 
+        if ( selection == 'e' )
+            message = encrypt( message, subkeys );
+        else if ( selection == 'd' )
+            message = decrypt( message, subkeys);
+        else
+            throw new IllegalArgumentException("INVALID SELECTION");
+
+    }
+
+//---------------------------------------------------------------------------
+
+    public static SDESBits encrypt( SDESBits message, SDESBits[] subkeys )
+    {
         message = message.permute( SDESConstants.IP );
-
         message = feistalRound( message, subkeys[0] );
-
         switchFunction( message );
-
         message = feistalRound( message, subkeys[1] );
-
         message = message.permute( SDESConstants.IPI );
+        return message;
+    }
+
+//---------------------------------------------------------------------------
+
+    public static SDESBits decrypt( SDESBits message, SDESBits[] subkeys )
+    {
+        message = message.permute( SDESConstants.IP );
+        message = feistalRound( message, subkeys[1] );
+        switchFunction( message );
+        message = feistalRound( message, subkeys[0] );
+        message = message.permute( SDESConstants.IPI );
+        return message;
     }
 
 //---------------------------------------------------------------------------
@@ -78,7 +101,7 @@ public class SDES
     {
         message = message.permute( SDESConstants.EP );
         message.xor( subkey );
-        message = new SDESBits( message.sbox() ,8 );
+        message = new SDESBits( message.sbox(), 4 );
         message = message.permute( SDESConstants.P4 );
         return message;
     }

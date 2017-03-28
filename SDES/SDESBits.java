@@ -43,6 +43,7 @@ public class SDESBits
     public void switchHalves()
     {
         // Get the right half of the bits
+        System.out.println(half);
         int oRight = bits & ( ( 1 << half ) - 1 );
         // Shift the left half of the bits down
         bits >>>= half;
@@ -174,6 +175,8 @@ public class SDESBits
         size += newBits.size;
         // Shift original across and add new bits
         bits = ( bits << newBits.size ) | newBits.bits;
+        // Update half value
+        half = size >>> 1;
     }
 
 //---------------------------------------------------------------------------
