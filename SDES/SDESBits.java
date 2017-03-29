@@ -43,7 +43,6 @@ public class SDESBits
     public void switchHalves()
     {
         // Get the right half of the bits
-        System.out.println(half);
         int oRight = bits & ( ( 1 << half ) - 1 );
         // Shift the left half of the bits down
         bits >>>= half;
@@ -163,6 +162,10 @@ public class SDESBits
         // Bits are reverse ordered
         return (bits & 1 << ( size - index - 1 ) ) != 0;
     }
+
+//---------------------------------------------------------------------------
+
+    public int getBits() { return bits; }
 
 //---------------------------------------------------------------------------
     //FUNCTION: append()
