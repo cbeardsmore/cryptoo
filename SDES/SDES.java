@@ -17,17 +17,18 @@ public class SDES
         // Check argument length and output usage
         if ( args.length != 4 )
         {
-            System.out.println("USAGE: SDES <flag> <key> <input file> <output file>");
-            System.out.println("flags = -e encryption, -d decryption");
+            System.out.println("USAGE: SDES <mode> <key> <input file> <output file>");
+            System.out.println("modes = -e encryption, -d decryption");
             System.out.println("keys = int between 0 and 255");
             return;
         }
 
         // Rename variables for simplicity
-        String flag = args[0];
+        String mode = args[0];
         String key = args[1];
         String inFile = args[2];
         String outFile = args[3];
+        SDESBits message, output;
 
         // Parse key and generate subkeys
         int intKey = Integer.parseInt( key );
@@ -35,13 +36,25 @@ public class SDES
 
         try
         {
+            // Open file streams
             FileInputStream fis = new FileInputStream( new File( inFile ) );
             FileOutputStream fos = new FileOutputStream( new File( outFile ) );
+
+            // Read bytes until end of file
             int next = fis.read();
             while ( next != -1 )
             {
-                SDESBits message = new SDESBits( next, 8 );
-                SDESBits output = decrypt( message, subkeys  );
+                message = new SDESBits( next, 8 );
+
+                // Select function based on mode
+                if ( mode.equals( "-e" ) )
+                    output = encrypt( message, subkeys  );
+                else if ( mode.equals( "-d") )
+                    output = decrypt( message, subkeys  );
+                else
+                    throw new IllegalArgumentException("INVALID MODE");
+
+                // Write converted output to file
                 int outputInt = output.getBits();
                 fos.write( outputInt );
                 next = fis.read();
