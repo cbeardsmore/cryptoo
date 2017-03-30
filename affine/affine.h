@@ -17,6 +17,9 @@
 char encrypt(char,int,int);
 char decrypt(char,int,int);
 
+// FUNCTION POINTER
+typedef char (*FuncPtr)(char,int,int);
+
 // CONSTANTS
 #define ARGS 6
 #define ALPHABET 26

@@ -21,4 +21,4 @@ keyEligible.o : keyEligible.h
 	$(CC) -c keyEligible.c $(CFLAGS)
 
 clean:
-	rm -f $(EXEC1) $(OBJ1)
+	rm -f $(EXEC1) $(OBJ1) *.gch

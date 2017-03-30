@@ -3,7 +3,7 @@
 *	AUTHOR: Connor Beardsmore - 15504319
 *	UNIT: FCC200
 *	PURPOSE: Run Affine cipher given text and key, either encrypt or decrypt
-*   LAST MOD: 11/03/17
+*   LAST MOD: 28/03/17
 *   REQUIRES: affine.h
 ***************************************************************************/
 
@@ -29,10 +29,10 @@ int main( int argc, char* argv[] )
     int b = atoi( argv[5] );
 
     // CHECK THAT THE KEYS ARE ELIGIBLE
-    int validity = keyEligible( a, b );
+    int validity = keyEligible( a, b, ALPHABET );
     if ( validity != 1 )
     {
-        printf("KEYS %d AND %d ARE NOT VALID.", a, b );
+        printf("\nKEYS %d AND %d ARE NOT VALID.\n", a, b );
         return 2;
     }
 
@@ -43,36 +43,32 @@ int main( int argc, char* argv[] )
     // CHECK OPEN FOR ERRORS
     if ( ( inF == NULL ) || ( outF == NULL ) )
     {
-        perror("Error Opening input or output file");
+        perror("\nERROR OPENING INPUT OR OUTPUT FILE\n");
         return 3;
     }
 
-    // PERFORM ENCRYPTION IF -e FLAG PROVIDED
+    // FUNCTION POINTER FOR encrypt() OR decrypt()
+    FuncPtr fp;
+
+    // PERFORM ENCRYPTION IF -e FLAG PROVIDED AND VICE VERSA
     if ( !strncmp( flag, "-e", 2 ) )
+        fp = &encrypt;
+    else if ( !strncmp( flag, "-d", 2 ) )
+        fp = &decrypt;
+    else
     {
-        while ( ( feof( inF ) == 0 ) && ( ferror( inF ) == 0) && (ferror( inF ) == 0) )
-        {
-            char next = fgetc( inF );
-            if ( feof( inF ) == 0 )
-            {
-                char cipher = encrypt( next, a, b );
-                fputc( cipher, outF );
-            }
-        }
+        printf("\nFLAG IS INCORRECT, MUST BE -e OR -d\n");
+        return 4;
     }
 
-    // PERFORM DECRYPTION IF -d FLAG PROVIDED
-    if ( !strncmp( flag, "-d", 2 ) )
+    // PERFROM APPROPRIATE FUNCTION
+    while ( ( feof( inF ) == 0 ) && ( ferror( inF ) == 0) && (ferror( inF ) == 0) )
     {
-        while ( ( feof( inF ) == 0 ) && ( ferror( inF ) == 0) && (ferror( inF ) == 0) )
-        {
-            char next = fgetc( inF );
-            if ( feof( inF ) == 0 )
-            {
-            char cipher = decrypt( next, a, b );
-            fputc( cipher, outF );
-            }
-        }
+        // GET THE NEXT CHARACTER FROM FILE
+        char next = fgetc( inF );
+        if ( feof( inF ) == 0 )
+            // WRITE THE CONVERTED CHARACTER TO FILE
+            fputc( ( *fp )( next, a, b ), outF );
     }
 
     // CLOSE FILES
@@ -90,27 +86,31 @@ int main( int argc, char* argv[] )
 char encrypt( char plain, int a, int b)
 {
     char output = plain;
+    // ENCRYPT BASED ON plain * a + b MODULO 26
+    // IGNORE NON-CHARACTERS
     if ( isupper(plain) )
-        output = ( ( ( plain - 'A' ) * a + b ) % 26 ) + 'A';
+        output = ( ( ( plain - 'A' ) * a + b ) % ALPHABET ) + 'A';
     else if ( islower(plain) )
-        output = ( ( ( plain - 'a' ) * a + b ) % 26 ) + 'a';
-
+        output = ( ( ( plain - 'a' ) * a + b ) % ALPHABET ) + 'a';
     return output;
 }
 
 //------------------------------------------------------------------------------
 // FUNCTION: decrypt
 // IMPORT: plain (char*), a (int), b (int)
-// PURPOSE: ???
+// PURPOSE: Convert a ciphertect char into the decrypted character
 
 char decrypt( char cipher, int a, int b )
 {
+    // FIND THE MODULO INVERSE USING EUCLIDEAN
     int inverse = extendEuclid( a, ALPHABET );
     char output = cipher;
+    // DECRYPT BASED ON inverse * cipher - b MODULO 26
+    // IGNORE NON-CHARACTERS
     if ( isupper(cipher) )
-        output = ( ( inverse * ( cipher - 'A' - b + 26 ) ) % 26 ) + 'A';
+        output = ( ( inverse * ( cipher - 'A' - b + ALPHABET ) ) % ALPHABET ) + 'A';
     else if ( islower(cipher) )
-        output = ( ( inverse * ( cipher - 'a' - b + 26 ) ) % 26 ) + 'a';
+        output = ( ( inverse * ( cipher - 'a' - b + ALPHABET ) ) % ALPHABET ) + 'a';
     return output;
 }
 

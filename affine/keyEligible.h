@@ -8,7 +8,7 @@
 ***************************************************************************/
 
 // PROTOTYPES
-int keyEligible(int,int);
+int keyEligible(int,int,int);
 int gcdFunction(int,int);
 int extendEuclid(int,int);
 

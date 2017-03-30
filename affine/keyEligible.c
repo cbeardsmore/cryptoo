@@ -3,7 +3,7 @@
 *	AUTHOR: Connor Beardsmore - 15504319
 *	UNIT: FCC200
 *	PURPOSE: Check the eligibility of keys a and b
-*   LAST MOD: 11/03/17
+*   LAST MOD: 28/03/17
 *   REQUIRES: keyEligible.h
 ***************************************************************************/
 
@@ -15,11 +15,15 @@
 // EXPORT: eligible (int)
 // PURPOSE: Check that the two given keys are eligible via coprime check
 
-int keyEligible( int a, int b)
+int keyEligible( int a, int b, int alphabet )
 {
-    int eligible = 0;
-    if ( gcdFunction( a, b ) == 1 )
-        eligible = 1;
+    int eligible = 1;
+    // a must be coprime to the alphabet length (26)
+    if ( gcdFunction( a, alphabet ) != 1 )
+        eligible = 0;
+    // b must be positive and less than the alphabet (26)
+    if ( ( b < 0 ) || ( b > ( alphabet - 1 ) ) )
+        eligible = 0;
     return eligible;
 }
 
