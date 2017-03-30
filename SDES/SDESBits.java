@@ -9,6 +9,10 @@
 
 public class SDESBits
 {
+    //CONSTANTS
+    public static final int MIN_SIZE = 4;
+    public static final int MAX_SIZE = 10;
+
     //CLASSFIELDS
     private int bits;
     private int size;
@@ -21,6 +25,14 @@ public class SDESBits
 
     public SDESBits( int inBits, int inSize )
     {
+        // Check inBits and inSize validity
+        if ( inBits < 0 )
+            throw new IllegalArgumentException( "INVALID SDESBits VALUE" );
+        if ( ( inSize < MIN_SIZE ) || ( inSize > MAX_SIZE ) )
+            throw new IllegalArgumentException( "INVALID SDESBits SIZE" );
+        if ( inSize % 2 != 0 )
+            throw new IllegalArgumentException( "INVALID SDESBits SIZE" );
+
         bits = inBits;
         size = inSize;
         half = inSize >>> 1;
@@ -73,6 +85,10 @@ public class SDESBits
 
     public void leftShift( int shifts )
     {
+        //Check shift validity
+        if ( shifts < 1 )
+            throw new IllegalArgumentException( "ILLEGAL SHIFT VALUE" );
+
         // Temp variable for repeated 1's for a half
         int ones = ( 1 << half ) - 1;
         // Avoid shifting more than required
@@ -88,10 +104,10 @@ public class SDESBits
         {
             // Get the leftmost bit of the left sub-half
             int leftBit = ( left & ones );
-            leftBit >>>= 4;
+            leftBit >>>= MIN_SIZE;
             // Get the rightmost bit of the right sub-half
             int rightBit = ( right & ones );
-            rightBit >>>=4;
+            rightBit >>>= MIN_SIZE;
 
             // Perform the actual shifting of the bits
             left = ( left << 1 ) & ones;
@@ -132,6 +148,10 @@ public class SDESBits
 
     public void xor( SDESBits inBits )
     {
+        // Ensure the same size
+        if ( size != inBits.size )
+            throw new IllegalArgumentException( "CANNOT XOR DIFFERENT SIZES" );
+
         // Call simple exclusive-or on both bits
         bits ^= inBits.bits;
     }
@@ -143,6 +163,10 @@ public class SDESBits
 
     public void setBit( boolean val, int index )
     {
+        // Validity
+        if ( ( index < 0 ) || ( index >= size) )
+            throw new IllegalArgumentException("SETBIT IMPORTS INVALID");
+
         // Reset the given bit
         bits &= ~(1 << ( size - index - 1 ) );
         // Reset the bits greater than the size we want
@@ -159,6 +183,9 @@ public class SDESBits
 
     public boolean getBit( int index )
     {
+        if ( ( index < 0 ) || ( index >= size) )
+            throw new IllegalArgumentException("SETBIT IMPORTS INVALID");
+
         // Bits are reverse ordered
         return (bits & 1 << ( size - index - 1 ) ) != 0;
     }

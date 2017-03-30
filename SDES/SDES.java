@@ -12,15 +12,23 @@ import java.io.*;
 
 public class SDES
 {
+
+    public static final int NUM_ARGS = 4;
+    public static final int MAX_KEY = 1023;
+    public static final int KEY_SIZE = 10;
+    public static final int MESSAGE_SIZE = 8;
+
+//---------------------------------------------------------------------------
+
     public static void main( String[] args )
     {
         // Check argument length and output usage
-        if ( args.length != 4 )
+        if ( args.length != NUM_ARGS )
         {
             System.out.println("USAGE: SDES <mode> <key> <input file> <output file>");
             System.out.println("modes = -e encryption, -d decryption");
             System.out.println("keys = int between 0 and 255");
-            return;
+            System.exit(1);
         }
 
         // Rename variables for simplicity
@@ -29,13 +37,13 @@ public class SDES
         String inFile = args[2];
         String outFile = args[3];
         SDESBits message, output;
-
-        // Parse key and generate subkeys
         int intKey = Integer.parseInt( key );
-        SDESBits subkeys[] = keyGeneration( intKey );
 
         try
         {
+            // Generate subkeys
+            SDESBits subkeys[] = keyGeneration( intKey );
+
             // Open file streams
             FileInputStream fis = new FileInputStream( new File( inFile ) );
             FileOutputStream fos = new FileOutputStream( new File( outFile ) );
@@ -44,7 +52,7 @@ public class SDES
             int next = fis.read();
             while ( next != -1 )
             {
-                message = new SDESBits( next, 8 );
+                message = new SDESBits( next, MESSAGE_SIZE );
 
                 // Select function based on mode
                 if ( mode.equals( "-e" ) )
@@ -60,7 +68,10 @@ public class SDES
                 next = fis.read();
             }
         }
-        catch (Exception e) {}
+        catch (Exception e)
+        {
+            System.out.println( e.getMessage() );
+        }
 
     }
 
@@ -68,7 +79,7 @@ public class SDES
     //FUNCTION: encrypt()
     //IMPORT: message (SDESBits), subkeys (SDESBits[])
     //EXPORT: message (SDESBits)
-    //PURPOSE:
+    //PURPOSE: Encrypt given message with given subkeys
 
     public static SDESBits encrypt( SDESBits message, SDESBits[] subkeys )
     {
@@ -86,6 +97,10 @@ public class SDES
     }
 
 //---------------------------------------------------------------------------
+    //FUNCTION: decrypt()
+    //IMPORT: message (SDESBits), subkeys (SDESBits[])
+    //EXPORT: message (SDESBits)
+    //PURPOSE: Decrypt given message with given subkeys
 
     public static SDESBits decrypt( SDESBits message, SDESBits[] subkeys )
     {
@@ -103,9 +118,9 @@ public class SDES
     }
 
 //---------------------------------------------------------------------------
-    // switchFunction()
-    // IMPORT: input (SDESBitSet)
-    // PURPOSE: Import 8-bit binary and swap the first and last 4 bits
+    //FUNCTION: switchFunction()
+    //IMPORT: input (SDESBitSet)
+    //PURPOSE: Import 8-bit binary and swap the first and last 4 bits
 
     public static void switchFunction( SDESBits input )
     {
@@ -113,10 +128,19 @@ public class SDES
     }
 
 //---------------------------------------------------------------------------
+    //FUNCTION: keyGeneration()
+    //IMPORT: keyDec (int)
+    //EXPORT: subkeys (SDESBits[])
+    //PURPOSE: Generate subkeys given the full key
 
     public static SDESBits[] keyGeneration( int keyDec )
     {
-        SDESBits key = new SDESBits( keyDec, 10 );
+        // Check key validity
+        if ( ( keyDec < 0 ) || ( keyDec > MAX_KEY ) )
+            throw new IllegalArgumentException("INVALID KEY");
+
+        // Convert int key into an SDESBits object and create subkey array
+        SDESBits key = new SDESBits( keyDec, KEY_SIZE );
         SDESBits[] subkeys = new SDESBits[2];
 
         // P10 permutation, left shift and P8 permutation to form subkey 1
@@ -131,23 +155,36 @@ public class SDES
     }
 
 //---------------------------------------------------------------------------
+    //FUNCTION: feistalRound()
+    //IMPORT: message (SDESBits), subkey (SDESBits)
+    //EXPORT: halves (SDESBits)
+    //PURPOSE: Perform feistal key round on message given a subkey
 
     public static SDESBits feistalRound( SDESBits message, SDESBits subkey )
     {
+        // Split message in half
         SDESBits halves[] = message.split();
+        // Perform fMapping function
         SDESBits fMap = fMapping( halves[1], subkey );
+        // XOR the halves and append
         halves[0].xor( fMap );
         halves[0].append(halves[1]);
         return halves[0];
     }
 
 //---------------------------------------------------------------------------
+    //FUNCTION: fMapping()
+    //IMPORT: message (SDESBits), subkey (SDESBits)
+    //EXPORT: message (SDESBits)
+    //PURPOSE: Perform fMapping function on given message with subkey
 
     public static SDESBits fMapping( SDESBits message, SDESBits subkey )
     {
+        // Expansion permutation and XOR with subkey
         message = message.permute( SDESConstants.EP );
         message.xor( subkey );
-        message = new SDESBits( message.sbox(), 4 );
+        // Calculate SBOX values and P4 permutation
+        message = new SDESBits( message.sbox(), MESSAGE_SIZE/2 );
         message = message.permute( SDESConstants.P4 );
         return message;
     }

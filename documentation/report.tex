@@ -22,7 +22,7 @@
 \rfoot{\thepage}
 
 \pagenumbering{arabic}
-\graphicspath{{../images/}}
+\graphicspath{{./images/}}
 
 %-------------------------------------------------------------------------------
 \begin{document}
@@ -60,19 +60,59 @@
 \vspace*{0.8cm}
 \section*{Compute Eligible Keys}
 
-hello
+There are two keys required, \textit{a} and \textit{b}. The first is required to be \textit{coprime} with the length of the alphabet, in this scenario \textit{26}. The second key representing the linear shift must be both positive and less than the length of the alphabet.\\ \\ \\ \\
+
+???\\\\
+
+There are a total of 12 possible \textit{a} values that are coprime with \textit{26}. Each of these values can have a shift value (\textit{b}) of 0 to 25. Thus, the total number of eligible keys is:
+
+$$12*26=312$$
+
+Of these, 26 keys are trivial Caesar ciphers and 286 are non-trivial.
 
 \section*{Recovered Plaintext}
 
-hello
+\begin{figure}[H]
+	\includegraphics[width=\textwidth]{affine_plaintext.png}
+	\caption{Original Plaintext File}
+	\centering
+\end{figure}
+
+\begin{figure}[H]
+	\includegraphics[width=\textwidth]{affine_encrypt.png}
+	\caption{Encryption Process}
+	\centering
+\end{figure}
+
+\begin{figure}[H]
+	\includegraphics[width=\textwidth]{affine_ciphertext.png}
+	\caption{Encrypted Ciphertext File}
+	\centering
+\end{figure}
+
+\begin{figure}[H]
+	\includegraphics[width=\textwidth]{affine_decrypt.png}
+	\caption{Decryption Process}
+	\centering
+\end{figure}
+
+\begin{figure}[H]
+	\includegraphics[width=\textwidth]{affine_plaintext.png}
+	\caption{Recovered Plaintext file}
+	\centering
+\end{figure}
 
 \section*{Affine Mathematical Proof}
 
-hello
+The encryption and decryption functions for the affine cipher are as follows:
+
+$$E(x)=(ax+b)\;mod\;m$$
+
+$$D(x)=a^{-1}(x-b)\;mod\;m$$
 
 \section*{Letter Distribution}
 
-hello
+For the given test file shown in Figure 1, Figure 6 illustrates the letter distributions plotted via GNUPlot.
 
 
 \break
@@ -102,6 +142,10 @@ hello
 hello
 
 \section*{Utilization of an all 1 Key}
+
+hello
+
+\section*{Modify S-Boxes}
 
 hello
 
