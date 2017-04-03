@@ -18,6 +18,10 @@
 int keyEligible( int a, int b, int alphabet )
 {
     int eligible = 1;
+
+    // a must be positive and less than the alpabet (26)
+    if ( ( a < 0 ) || ( b > ( alphabet - 1 ) ) )
+        eligible = 0;
     // a must be coprime to the alphabet length (26)
     if ( gcdFunction( a, alphabet ) != 1 )
         eligible = 0;
@@ -35,26 +39,21 @@ int keyEligible( int a, int b, int alphabet )
 int gcdFunction( int a, int b )
 {
     int quotient, residue, temp, gcd = 1;
-
     // SWAP ELEMENTS TO GET THE MAX
     if ( a < b )
     {
         temp = a;
-        a = b;
+        a = b;a
         b = temp;
     }
-
     // CHECK IF EITHER NUMBER IS 0
     if ( a == 0 )   return b;
     if ( b == 0 )   return a;
-
     // SATISFY THE EQUATION: A = B * quotient + residue
     quotient = a / b;
     residue = a - ( b * quotient );
-
     // RECURSIVELY CALL GCD
     gcd = gcdFunction( b, residue );
-
     return gcd;
 }
 

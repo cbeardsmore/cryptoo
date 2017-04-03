@@ -1,8 +1,8 @@
 %-------------------------------------------------------------------------------
 %	NAME:	report.tex
 %	AUTHOR: Connor Beardsmore - 15504319
-%	LAST MOD:	28/09/16
-%	PURPOSE:	OOSE Assignment Report
+%	LAST MOD:	28/09/17
+%	PURPOSE:	FCC Assignment Report
 %	REQUIRES:	NONE
 %-------------------------------------------------------------------------------
 
@@ -13,6 +13,9 @@
 \usepackage{float}
 \usepackage{hyperref}
 \usepackage{transparent}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage[final]{pdfpages}
 
 \pagestyle{fancy}
 \fancyhf{}
@@ -60,9 +63,50 @@
 \vspace*{0.8cm}
 \section*{Compute Eligible Keys}
 
-There are two keys required, \textit{a} and \textit{b}. The first is required to be \textit{coprime} with the length of the alphabet, in this scenario \textit{26}. The second key representing the linear shift must be both positive and less than the length of the alphabet.\\ \\ \\ \\
+There are two keys required, \textit{a} and \textit{b}. The first is required to be \textit{coprime} with the length of the alphabet, in this scenario \textit{26}. The second key representing the linear shift must be both positive and less than the length of the alphabet. To check if the \textit{a} value is coprime, the following greatest common denominator check was utilized. If the greatest common denominator of \textit{a} and 26 is 1, the value of \textit{a} is \textit{coprime} and the key is valid in combination with any valid \textit{b} value.\\
 
-???\\\\
+\begin{figure}[H]
+	\includegraphics[width=\textwidth]{gcd.png}
+	\caption{Greatest Common Denominator Test}
+	\centering
+\end{figure}
+
+The results of calling this function on all \textit{a} values from 1 to 25 are as follows:\\
+
+\begin{multicols}{2}
+	\begin{itemize}
+		\item \textbf{gcdFunction( 1, 26 ) = 1}
+		\item gcdFunction( 2, 26 ) = 2
+		\item \textbf{gcdFunction( 3, 26 ) = 1}
+		\item gcdFunction( 4, 26 ) = 2
+		\item \textbf{gcdFunction( 5, 26 ) = 1}
+		\item gcdFunction( 6, 26 ) = 2
+		\item \textbf{gcdFunction( 7, 26 ) = 1}
+		\item gcdFunction( 8, 26 ) = 2
+	    \item \textbf{gcdFunction( 9, 26 ) = 1}
+		\item gcdFunction( 10, 26 ) = 2
+		\item \textbf{gcdFunction( 11, 26 ) = 1}
+		\item gcdFunction( 12, 26 ) = 2
+		\item gcdFunction( 13, 26 ) = 13
+		\item gcdFunction( 14, 26 ) = 2
+		\item \textbf{gcdFunction( 15, 26 ) = 1}
+		\item gcdFunction( 16, 26 ) = 2
+		\item \textbf{gcdFunction( 17, 26 ) = 1}
+		\item gcdFunction( 18, 26 ) = 2
+		\item \textbf{gcdFunction( 19, 26 ) = 1}
+		\item gcdFunction( 20, 26 ) = 2
+		\item \textbf{gcdFunction( 21, 26 ) = 1}
+		\item gcdFunction( 22, 26 ) = 2	
+		\item \textbf{gcdFunction( 23, 26 ) = 1}
+		\item gcdFunction( 24, 26 ) = 2
+		\item \textbf{gcdFunction( 25, 26 ) = 1}
+	\end{itemize}
+\end{multicols}
+
+
+\vspace{0.5cm}
+
+The full list of valid \textit{a} values is: \textbf{1, 3, 5, 7, 9, 11, 15, 17, 19, 21, 23, 25}\\
 
 There are a total of 12 possible \textit{a} values that are coprime with \textit{26}. Each of these values can have a shift value (\textit{b}) of 0 to 25. Thus, the total number of eligible keys is:
 
@@ -110,10 +154,67 @@ $$E(x)=(ax+b)\;mod\;m$$
 
 $$D(x)=a^{-1}(x-b)\;mod\;m$$
 
+\vspace{0.5cm}
+
+The modular multiplicative inverse of \textit{a} is defined as:
+
+$$1=aa^{-1}\;mod\;m$$
+
+It can be shown that \textit{D(x)} is the inverse of \textit{E(x)} via the modular arithmetic laws.
+
+\begin{equation*}
+\begin{split}
+D(E(x)) & = a^{-1}(E(x)-b)\;mod\;m \\
+& = a^{-1}(( ax+b\;mod\;m )-b)\;mod\;m \\
+& = a^{-1} (ax+b-b) \;mod\;m \\
+& = a^{-1}ax\;mod\;m \\
+& = x\;mod\;m
+\end{split}
+\end{equation*}
+
+
+
+
 \section*{Letter Distribution}
 
-For the given test file shown in Figure 1, Figure 6 illustrates the letter distributions plotted via GNUPlot.
+For the given test file shown in Figure 2, the following table and Figure 7 illustrate the letter distribution and relative frequencies.
 
+\begin{multicols}{7}
+	\begin{itemize}
+		\item A: 35
+		\item B: 7
+		\item C: 17
+		\item D: 14
+		\item E: 65
+		\item F: 14
+		\item G: 10
+		\item H: 16
+		\item I: 41
+		\item J: 0
+		\item K: 0
+		\item L: 18
+		\item M: 16
+		\item N: 35
+		\item O: 50
+		\item P: 23
+		\item Q: 2
+		\item R: 39
+		\item S: 39
+		\item T: 53
+		\item U: 8
+		\item V: 2
+		\item W: 4
+		\item X: 2
+		\item Y: 3
+		\item Z: 1
+	\end{itemize}
+\end{multicols}
+
+\begin{figure}[H]
+	\includegraphics[width=\textwidth]{frequency.png}
+	\caption{Letter Distributions}
+	\centering
+\end{figure}
 
 \break
 %-------------------------------------------------------------------------------
@@ -155,7 +256,7 @@ hello
 
 \vspace*{-0.8cm}
 \begin{center}
-	\section*{Follow up Questions}
+	\section*{Additional Questions}
 \end{center}
 
 \vspace*{0.8cm}
@@ -179,8 +280,28 @@ hello \\
 
 hello \\
 
-\break
+\pagebreak
+
+%-------------------------------------------------------------------------------
+% AFFINE CODE
+
+\includepdf[pages={-},scale=0.85,pagecommand=
+{ \centering \section*{Affine Cipher Source Code} }
+]{code_pdf/keyeligible_h.pdf}
+\includepdf[pages={-},scale=0.85,pagecommand={}]{code_pdf/keyeligible_c.pdf}
+\includepdf[pages={-},scale=0.85,pagecommand={}]{code_pdf/affine_h.pdf}
+\includepdf[pages={-},scale=0.85,pagecommand={}]{code_pdf/affine_c.pdf}
+
+%-------------------------------------------------------------------------------
+% SDES CODE
+
+\includepdf[pages={-},scale=0.85,pagecommand=
+{ \centering \section*{S-DES Source Code} }
+]{code_pdf/sdesconstants.pdf}
+
+\includepdf[pages={-},scale=0.85,pagecommand={}]{code_pdf/sdesbits.pdf}
+\includepdf[pages={-},scale=0.85,pagecommand={}]{code_pdf/sdes.pdf}
 
 %-------------------------------------------------------------------------------
 \end{document}   
-%-------------------------------------------------------------------------------
+%-------------------------------------------------------------------------------:
