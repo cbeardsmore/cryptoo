@@ -16,6 +16,8 @@
 \usepackage{multicol}
 \usepackage{amsmath}
 \usepackage[final]{pdfpages}
+\usepackage{listings}
+\usepackage{color}
 
 \pagestyle{fancy}
 \fancyhf{}
@@ -26,6 +28,35 @@
 
 \pagenumbering{arabic}
 \graphicspath{{./images/}}
+
+%-------------------------------------------------------------------------------
+% CODE HIGHLIGHTING FOR LISTINGS
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.99,0.99,0.99}
+
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{magenta},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=2
+}
+
+\lstset{style=mystyle}
+
 
 %-------------------------------------------------------------------------------
 \begin{document}
@@ -61,16 +92,13 @@
 \end{center}
 
 \vspace*{0.8cm}
-\section*{Compute Eligible Keys}
+\subsection*{Compute Eligible Keys}
 
 There are two keys required, \textit{a} and \textit{b}. The first is required to be \textit{coprime} with the length of the alphabet, in this scenario \textit{26}. The second key representing the linear shift must be both positive and less than the length of the alphabet. To check if the \textit{a} value is coprime, the following greatest common denominator check was utilized. If the greatest common denominator of \textit{a} and 26 is 1, the value of \textit{a} is \textit{coprime} and the key is valid in combination with any valid \textit{b} value.\\
 
-\begin{figure}[H]
-	\includegraphics[width=\textwidth]{gcd.png}
-	\caption{Greatest Common Denominator Test}
-	\centering
-\end{figure}
+\lstinputlisting[language=C,linerange={34-60} ]{../affine/keyeligible.c} 
 
+\vspace{0.5cm}
 The results of calling this function on all \textit{a} values from 1 to 25 are as follows:\\
 
 \begin{multicols}{2}
@@ -114,7 +142,7 @@ $$12*26=312$$
 
 Of these, 26 keys are trivial Caesar ciphers and 286 are non-trivial.
 
-\section*{Recovered Plaintext}
+\subsection*{Recovered Plaintext}
 
 \begin{figure}[H]
 	\includegraphics[width=\textwidth]{affine_plaintext.png}
@@ -141,12 +169,12 @@ Of these, 26 keys are trivial Caesar ciphers and 286 are non-trivial.
 \end{figure}
 
 \begin{figure}[H]
-	\includegraphics[width=\textwidth]{affine_plaintext.png}
+d	\includegraphics[width=\textwidth]{affine_plaintext.png}
 	\caption{Recovered Plaintext file}
 	\centering
 \end{figure}
 
-\section*{Affine Mathematical Proof}
+\subsection*{Affine Mathematical Proof}
 
 The encryption and decryption functions for the affine cipher are as follows:
 
@@ -175,7 +203,7 @@ D(E(x)) & = a^{-1}(E(x)-b)\;mod\;m \\
 
 
 
-\section*{Letter Distribution}
+\subsection*{Letter Distribution}
 
 For the given test file shown in Figure 2, the following table and Figure 7 illustrate the letter distribution and relative frequencies.
 
@@ -226,27 +254,49 @@ For the given test file shown in Figure 2, the following table and Figure 7 illu
 \end{center}
 
 \vspace*{0.8cm}
-\section*{S-DES Mathematical Proof}
+\subsection*{S-DES Mathematical Proof}
 
 hello
 
-\section*{Pseudo Code Structure}
+\subsection*{Pseudo Code Structure}
 
 hello
 
-\section*{Encrypted Test File}
+\subsection*{Encrypted Test File}
+
+\begin{figure}[H]
+	\includegraphics[width=\textwidth]{sdes_encrypt.png}
+	\caption{S-DES Encryption Process}
+	\centering
+\end{figure}
+
+\begin{figure}[H]
+	\includegraphics[width=\textwidth]{sdes_cipher1.png}
+	\includegraphics[width=\textwidth]{sdes_cipher2.png}	
+	\caption{S-DES Cipher Text}
+	\centering
+\end{figure}
+
+\subsection*{Decrypted Test File}
+
+\begin{figure}[H]
+	\includegraphics[width=\textwidth]{sdes_decrypt.png}
+	\caption{S-DES Decryption Process}
+	\centering
+\end{figure}
+
+\begin{figure}[H]
+	\includegraphics[width=\textwidth]{sdes_plain1.png}
+	\includegraphics[width=\textwidth]{sdes_plain2.png}	
+	\caption{S-DES Plain Text}
+	\centering
+\end{figure}
+
+\subsection*{Utilization of an all 1 Key}
 
 hello
 
-\section*{Decrypted Test File}
-
-hello
-
-\section*{Utilization of an all 1 Key}
-
-hello
-
-\section*{Modify S-Boxes}
+\subsection*{Modify S-Boxes}
 
 hello
 
@@ -260,47 +310,59 @@ hello
 \end{center}
 
 \vspace*{0.8cm}
-\section*{Threats}
+\subsection*{Threats}
 
 hello \\
 
-\section*{Source Coding}
+\subsection*{Source Coding}
+
+Source coding in information transmission aims to compress natural messages for highly efficient message transfer.
+
+\subsection*{Error Coding}
+
+Error coding in information transmission attempts to enable a high information rate by the introduction of redundancy to data, as well as via error detection and correction mechanisms.
+
+\subsection*{S-DES Coding}
 
 hello \\
 
-\section*{Error Coding}
+\subsection*{S-DES Confusion and Diffusion}
 
-hello \\
-
-\section*{S-DES Coding}
-
-hello \\
-
-\section*{S-DES Confusion and Diffusion}
-
-hello \\
+In S-DES, confusion is provided by the S-BOX substitutions performed within the feistal key round. Diffusion in contrast is provided by the permutations applied to the data included the expansion permutation utilized.
 
 \pagebreak
 
 %-------------------------------------------------------------------------------
 % AFFINE CODE
 
-\includepdf[pages={-},scale=0.85,pagecommand=
-{ \centering \section*{Affine Cipher Source Code} }
-]{code_pdf/keyeligible_h.pdf}
-\includepdf[pages={-},scale=0.85,pagecommand={}]{code_pdf/keyeligible_c.pdf}
-\includepdf[pages={-},scale=0.85,pagecommand={}]{code_pdf/affine_h.pdf}
-\includepdf[pages={-},scale=0.85,pagecommand={}]{code_pdf/affine_c.pdf}
+\vspace*{-0.8cm}
+\begin{center}
+	\section*{Affine Source Code}
+\end{center}
+
+\subsection*{keyeligible.h}
+\lstinputlisting[language=C,linerange={} ]{../affine/keyeligible.h}\pagebreak{}
+\subsection*{keyeligible.c}
+\lstinputlisting[language=C,linerange={} ]{../affine/keyeligible.c}\pagebreak{}
+\subsection*{affine.h}
+\lstinputlisting[language=C,linerange={} ]{../affine/affine.h}\pagebreak{}
+\subsection*{affine.c}
+\lstinputlisting[language=C,linerange={} ]{../affine/affine.c}\pagebreak{}
 
 %-------------------------------------------------------------------------------
 % SDES CODE
 
-\includepdf[pages={-},scale=0.85,pagecommand=
-{ \centering \section*{S-DES Source Code} }
-]{code_pdf/sdesconstants.pdf}
+\vspace*{-0.8cm}
+\begin{center}
+	\section*{S-DES Source Code}
+\end{center}
 
-\includepdf[pages={-},scale=0.85,pagecommand={}]{code_pdf/sdesbits.pdf}
-\includepdf[pages={-},scale=0.85,pagecommand={}]{code_pdf/sdes.pdf}
+\subsection*{SDESConstants.java}
+\lstinputlisting[language=java,linerange={} ]{../SDES/SDESConstants.java}\pagebreak{}
+\subsection*{SDESBits.java}
+\lstinputlisting[language=java,linerange={} ]{../SDES/SDESBits.java}\pagebreak{}
+\subsection*{SDES.java}
+\lstinputlisting[language=java,linerange={} ]{../SDES/SDES.java}\pagebreak{}
 
 %-------------------------------------------------------------------------------
 \end{document}   

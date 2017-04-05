@@ -43,7 +43,7 @@ int gcdFunction( int a, int b )
     if ( a < b )
     {
         temp = a;
-        a = b;a
+        a = b;
         b = temp;
     }
     // CHECK IF EITHER NUMBER IS 0
