@@ -172,7 +172,7 @@ Of these, 26 keys are trivial Caesar ciphers and 286 are non-trivial.
 \end{figure}
 
 \begin{figure}[H]
-d	\includegraphics[width=\textwidth]{affine_plaintext.png}
+	\includegraphics[width=\textwidth]{affine_plaintext.png}
 	\caption{Recovered Plaintext}
 	\centering
 \end{figure}
@@ -263,7 +263,7 @@ hello
 
 \subsection*{Pseudo Code Structure}
 
-The pseudo-code structure of the three key functions utilized in the S-DES implementation is illustrated below.\\
+The pseudo-code structure of the three key functions utilized in the S-DES implementation is illustrated below. The three function constitute the core functionality of the S-DES algorithm.\\
 
 \begin{algorithmic}
 \Function{KeyGeneration}{int key}
@@ -296,8 +296,7 @@ The pseudo-code structure of the three key functions utilized in the S-DES imple
 	\State $halves\gets $ \Call{split}{ message }
 	\State $fMap \gets $ \Call{fMapping}{ rightHalf, subkey }	
 	\State $ leftHalf \gets leftHalf \oplus fMap $
-	\State $ combined \gets leftHalf + rightHalf $
-	\State \Return combined
+	\State \Return combined $ leftHalf + rightHalf $
 	\EndFunction
 \end{algorithmic}
 
@@ -310,8 +309,8 @@ The pseudo-code structure of the three key functions utilized in the S-DES imple
 \end{figure}
 
 \begin{figure}[H]
-	\includegraphics[width=\textwidth]{sdes_cipher1.png}
-	\includegraphics[width=\textwidth]{sdes_cipher2.png}	
+	\includegraphics[height=\textheight/5,width=\textwidth]{sdes_cipher1.png}
+	\includegraphics[height=\textheight/5,width=\textwidth]{sdes_cipher2.png}	
 	\caption{S-DES Cipher Text}
 	\centering
 \end{figure}
@@ -340,7 +339,7 @@ $$x=E( E(x) )$$
 \subsection*{Modify S-Boxes}
 
 
-The S-BOX values in the SDESConstants.java file were modified to ensure that the S-DES algorithm still performs accurately.
+The S-BOX values in the SDESConstants.java file were modified to ensure that the S-DES algorithm still performs accurately. Modification of the S-BOX values within the given constraints - each row must contains 0, 1, 2 and 3 - did not affect the overall algorithm. However, modification of the S-BOX values can reduce the security of DES significantly.
 
 \break
 %-------------------------------------------------------------------------------
@@ -354,7 +353,7 @@ The S-BOX values in the SDESConstants.java file were modified to ensure that the
 \vspace*{0.8cm}
 \subsection*{Threats}
 
-hello \\
+wtf does this mean? security or transmission threats???
 
 \subsection*{Source Coding}
 
@@ -366,7 +365,9 @@ Error coding in information transmission attempts to enable a high information r
 
 \subsection*{S-DES Coding}
 
-hello \\
+what dis source coding? \\
+
+The S-DES algorithm does not contain any error coding. No checkbits or replication bits are included to help detect errors. This is in contrast to the standard DES algorithm, where 8-bits of the 64-bit key are odd parity checksums. This implies that S-DES has a higher information rate than DES, at the cost of the possible detection of transmission errors.
 
 \subsection*{S-DES Confusion and Diffusion}
 
