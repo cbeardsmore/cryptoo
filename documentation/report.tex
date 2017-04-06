@@ -18,6 +18,9 @@
 \usepackage[final]{pdfpages}
 \usepackage{listings}
 \usepackage{color}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{amssymb}
 
 \pagestyle{fancy}
 \fancyhf{}
@@ -146,7 +149,7 @@ Of these, 26 keys are trivial Caesar ciphers and 286 are non-trivial.
 
 \begin{figure}[H]
 	\includegraphics[width=\textwidth]{affine_plaintext.png}
-	\caption{Original Plaintext File}
+	\caption{Original Plaintext}
 	\centering
 \end{figure}
 
@@ -158,7 +161,7 @@ Of these, 26 keys are trivial Caesar ciphers and 286 are non-trivial.
 
 \begin{figure}[H]
 	\includegraphics[width=\textwidth]{affine_ciphertext.png}
-	\caption{Encrypted Ciphertext File}
+	\caption{Encrypted Ciphertext}
 	\centering
 \end{figure}
 
@@ -170,7 +173,7 @@ Of these, 26 keys are trivial Caesar ciphers and 286 are non-trivial.
 
 \begin{figure}[H]
 d	\includegraphics[width=\textwidth]{affine_plaintext.png}
-	\caption{Recovered Plaintext file}
+	\caption{Recovered Plaintext}
 	\centering
 \end{figure}
 
@@ -260,7 +263,43 @@ hello
 
 \subsection*{Pseudo Code Structure}
 
-hello
+The pseudo-code structure of the three key functions utilized in the S-DES implementation is illustrated below.\\
+
+\begin{algorithmic}
+\Function{KeyGeneration}{int key}
+	\State $key\gets $ \Call{permute}{ key, P10 }
+	\State \Call{leftshift}{ key, 1 }
+	\State $subkeys[0]\gets $ \Call{permute}{ key, P8 }
+	\State \Call{leftshift}{ key, 2 }
+	\State $subkeys[1]\gets $ \Call{permute}{ key, P8 }
+	\State \Return subkeys
+\EndFunction
+\end{algorithmic}
+
+
+\vspace{0.5cm}
+
+\begin{algorithmic}
+	\Function{SwitchFunction}{int input}
+		\State $ right \gets bits \;\&\&\; ( ( 1 << 4 ) - 1 ) $
+		\State $ left \gets bits >>> 4 $
+		\State $ output \gets left \;||\; ( right << 4 )$
+		\State \Return output
+	\EndFunction
+\end{algorithmic}
+
+\vspace{0.5cm}
+
+\begin{algorithmic}
+	\Function{FeistalKeyRound}{int message, int subkey}
+	
+	\State $halves\gets $ \Call{split}{ message }
+	\State $fMap \gets $ \Call{fMapping}{ rightHalf, subkey }	
+	\State $ leftHalf \gets leftHalf \oplus fMap $
+	\State $ combined \gets leftHalf + rightHalf $
+	\State \Return combined
+	\EndFunction
+\end{algorithmic}
 
 \subsection*{Encrypted Test File}
 
@@ -294,11 +333,14 @@ hello
 
 \subsection*{Utilization of an all 1 Key}
 
-hello
+Performing encryption and decryption with S-DES utilizing a key of all 1's (11111111) does not significantly alter how the algorithm performs. However, during the two feistal key rounds, the subkeys will be equivalent. This leads to both encryption and decryption being the same process. Thus in this situation:
+
+$$x=E( E(x) )$$
 
 \subsection*{Modify S-Boxes}
 
-hello
+
+The S-BOX values in the SDESConstants.java file were modified to ensure that the S-DES algorithm still performs accurately.
 
 \break
 %-------------------------------------------------------------------------------
@@ -355,7 +397,7 @@ In S-DES, confusion is provided by the S-BOX substitutions performed within the 
 \vspace*{-0.8cm}
 \begin{center}
 	\section*{S-DES Source Code}
-\end{center}
+ \end{center}
 
 \subsection*{SDESConstants.java}
 \lstinputlisting[language=java,linerange={} ]{../SDES/SDESConstants.java}\pagebreak{}
