@@ -37,7 +37,8 @@ public class SDES
         String inFile = args[2];
         String outFile = args[3];
         SDESBits message, output;
-        int intKey = Integer.parseInt( key );
+
+        int intKey = createKey( key );
 
         try
         {
@@ -125,6 +126,19 @@ public class SDES
     public static void switchFunction( SDESBits input )
     {
         input.switchHalves();
+    }
+
+//---------------------------------------------------------------------------
+    //FUNCTION: createKey()
+    //IMPORT: key (String)
+    //EXPORT: intKey (int)
+    //PURPOSE: Convert string key from user into a valid 10-bit integer
+
+    public static int createKey( String key )
+    {
+        // Chop to ensure it's only 10-bit long in total
+        // No need to pad if we do this chopping correctly
+        return ( key.hashCode() & MAX_KEY );
     }
 
 //---------------------------------------------------------------------------
