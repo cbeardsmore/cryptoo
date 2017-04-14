@@ -1,0 +1,118 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 2.5 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \sortlist{nty}{nty}
+    \entry{sans}{article}{}
+      \name{author}{1}{}{%
+        {{hash=32caa06105e696cbae180318066d2fbc}{Gargiulo}{G\bibinitperiod}{Joe}{J\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{32caa06105e696cbae180318066d2fbc}
+      \strng{fullhash}{32caa06105e696cbae180318066d2fbc}
+      \field{sortinit}{G}
+      \field{sortinithash}{1c854ef9177a91bf894e66485bdbd3ed}
+      \field{labelyear}{2002}
+      \field{datelabelsource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{SANS Institute InfoSec Reading Room}
+      \field{title}{S-Box Modifications and Their Effect in DES-like Encryption Systems}
+      \field{year}{2002}
+    \endentry
+    \entry{sdes_anal}{article}{}
+      \name{author}{2}{}{%
+        {{hash=5c277939ba878ef78522d2f6d1658df8}{Konikoff}{K\bibinitperiod}{Jacob}{J\bibinitperiod}{}{}{}{}}%
+        {{hash=264facfd2c12e0b3c275103fcc5fea24}{Toplosky}{T\bibinitperiod}{Seth}{S\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{3c10363fe23dd9012dd346eed3741c77}
+      \strng{fullhash}{3c10363fe23dd9012dd346eed3741c77}
+      \field{sortinit}{K}
+      \field{sortinithash}{a7d5b3aec5a0890aae7baf85a209abfc}
+      \field{labelyear}{2010}
+      \field{datelabelsource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Cryptologia}
+      \field{number}{3}
+      \field{title}{Analysis of Simplified DES Algorithms}
+      \field{volume}{34}
+      \field{year}{2010}
+      \field{pages}{211\bibrangedash 224}
+      \range{pages}{14}
+    \endentry
+    \entry{lecture}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=6e01a6e617123652b3feeceef9bb886d}{Liu}{L\bibinitperiod}{Wan-Quan}{W\bibinithyphendelim Q\bibinitperiod}{}{}{}{}}%
+      }
+      \list{organization}{1}{%
+        {Curtin University}%
+      }
+      \strng{namehash}{6e01a6e617123652b3feeceef9bb886d}
+      \strng{fullhash}{6e01a6e617123652b3feeceef9bb886d}
+      \field{sortinit}{L}
+      \field{sortinithash}{872351f18d0f736066eda0bf18bfa4f7}
+      \field{labelyear}{2017}
+      \field{datelabelsource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Lecture 3: Coding}
+      \field{year}{2017}
+    \endentry
+    \entry{alttext}{book}{}
+      \name{author}{1}{}{%
+        {{hash=d8df23ab843a37bf97ea40354db74d15}{Schneier}{S\bibinitperiod}{Bruce}{B\bibinitperiod}{}{}{}{}}%
+      }
+      \list{publisher}{1}{%
+        {John Wiley \& Sons Inc}%
+      }
+      \strng{namehash}{d8df23ab843a37bf97ea40354db74d15}
+      \strng{fullhash}{d8df23ab843a37bf97ea40354db74d15}
+      \field{sortinit}{S}
+      \field{sortinithash}{fd1e7c5ab79596b13dbbb67f8d70fb5a}
+      \field{labelyear}{1996}
+      \field{datelabelsource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{5}
+      \field{title}{Applied Cryptography}
+      \field{year}{1996}
+    \endentry
+    \entry{maintext}{book}{}
+      \name{author}{1}{}{%
+        {{hash=0599c551bf066f66e0e9c44815384cb4}{Stallings}{S\bibinitperiod}{William}{W\bibinitperiod}{}{}{}{}}%
+      }
+      \list{publisher}{1}{%
+        {Prentice Hall}%
+      }
+      \strng{namehash}{0599c551bf066f66e0e9c44815384cb4}
+      \strng{fullhash}{0599c551bf066f66e0e9c44815384cb4}
+      \field{sortinit}{S}
+      \field{sortinithash}{fd1e7c5ab79596b13dbbb67f8d70fb5a}
+      \field{labelyear}{2011}
+      \field{datelabelsource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{5}
+      \field{title}{Cryptography and Network Security: Principles and Practice}
+      \field{year}{2011}
+    \endentry
+  \endsortlist
+\endrefsection
+\endinput
+

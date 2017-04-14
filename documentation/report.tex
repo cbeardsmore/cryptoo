@@ -106,6 +106,7 @@ There are two keys required, \textit{a} and \textit{b}. The first is required to
 \lstinputlisting[language=C,linerange={34-60} ]{../affine/keyeligible.c} 
 
 \vspace{0.5cm}
+\noindent
 The results of calling this function on all \textit{a} values from 1 to 25 are as follows:\\
 
 \begin{multicols}{2}
@@ -140,15 +141,18 @@ The results of calling this function on all \textit{a} values from 1 to 25 are a
 
 
 \vspace{0.5cm}
-
+\noindent
 The full list of valid \textit{a} values is: \textbf{1, 3, 5, 7, 9, 11, 15, 17, 19, 21, 23, 25}\\
 
+\noindent
 The full list of valid \textit{b} values is: \textbf{0 to 25 inclusive}\\
 
+\noindent
 There are a total of 12 possible \textit{a} values that are coprime with \textit{26}. Each of these values can have a shift value (\textit{b}) of 0 to 25. Thus, the total number of eligible keys is:
 
 $$12*26=312$$
 
+\noindent
 Of these, 26 keys are trivial Caesar ciphers and 286 are non-trivial (\cite{maintext}).
 \newpage
 \subsection*{Recovered Plaintext}
@@ -180,8 +184,9 @@ The encryption and decryption functions for the affine cipher are as follows:
 
 $$E(x)=c=(ax+b)\;mod\;m$$
 
-$$D(x)=x=a^{-1}(c-b)\;mod\;m$$
+$$D(c)=x=a^{-1}(c-b)\;mod\;m$$
 
+\noindent
 where:
 
 $$x = plaintext$$
@@ -190,10 +195,12 @@ $$m = alphabet\;length$$
 $$a,b=keys$$
 \vspace{0.5cm}
 
+\noindent
 The modular multiplicative inverse of \textit{a} - \textit{a\textsuperscript{-1}} -  is defined as:
 
 $$1=aa^{-1}\;mod\;m$$
 
+\noindent
 It can be shown that \textit{D(x)} is the inverse of \textit{E(x)} via the modular arithmetic laws:
 
 \begin{equation*}
@@ -209,7 +216,7 @@ D(E(x)) & = a^{-1}(E(x)-b)\;mod\;m \\
 \newpage
 \subsection*{Letter Distribution}
 
-For the given test file shown in Figure 2, the following values and Figure 4 illustrate the letter distribution and relative frequencies. The breakdown of the relative frequencies allow for cryptanalysis to be performed on the affine cipher, thus leading to a factor in its lack of security.
+For the given test file shown in Figure 2, the following values and Figure 4 illustrate the letter distribution and relative frequencies. The breakdown of the relative frequencies allow for cryptanalysis to be performed on the affine cipher, thus leading to a factor in its insecurity.
 
 \begin{multicols}{7}
 	\begin{itemize}
@@ -284,12 +291,18 @@ $$L_i=R_{i-1}$$
 $$R_i=L_{i-1}\oplus F(R_{i-1},k_i)$$
 
 \textbf{Step 3}
-$$c=IP^{-1}(L_{16},R_{16})$$
+$$c=IP^{-1}(L_{16},R_{16})$$\\
 \end{center}
 
 Next, it can be proven that plaintext \textit{m} can be discovered from ciphertext \textit{c} given the full key \textit{k}:
 
-$$c=IP^{-1}(L_{16},R_{16})$$
+$$(L^{'}_0,R^{'}_0)=IP(m)$$
+$$\therefore (L^{'}_0,R^{'}_0)=(R_2,L_2)$$
+
+$$R^{'}_0=[L_1\oplus f(R_1,k_2)]\oplus[f(R_1,k_2)]$$
+$$R^{'}_1=L_1$$
+$$L^{'}_1=R_1$$
+
 
 
 \newpage
@@ -361,9 +374,21 @@ For clarity, the pseudo code structure for the fMap function in addition to how 
 \end{algorithmic}
 
 \newpage
+\noindent
+Figure 5 illustrates the overall scheme of the simplified DES algorithm. It is evident that the algorithm is symmetric due to decryption being the clear inverse of encryption. The key generation scheme is also displayed.
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[height=0.8\textheight,width=0.8\textwidth]{sdes_scheme.png}
+		\caption{Simplified DES Scheme (\cite{maintext})}
+		\label{fig:des_scheme}		
+	\end{center}
+\end{figure}
+
+\newpage
 \subsection*{Encrypted Test File}
 
-The included code implementation for S-DES works correctly and there were no difficulties faced in the process of programming.
+The included code implementation for S-DES works correctly and there were no difficulties faced in the process of programming. Figure 6 shows the plaintext after encryption while Figure 7 produces the original plaintext via decryption of the ciphertext.
 
 \begin{figure}[H]
 	\includegraphics[height=\textheight/6,width=\textwidth]{sdes_cipher1.png}
@@ -385,7 +410,7 @@ The included code implementation for S-DES works correctly and there were no dif
 \newpage
 \subsection*{Utilization of an all 1 Key}
 
-Performing encryption and decryption with S-DES utilizing a key of all 1's (11111111) does not significantly alter how the algorithm performs. However, during the two feistal key rounds, the subkeys will be equivalent. The S-DES algorithm is symmetric, with the difference between encryption and decryption being the different subkeys utilized in the two rounds. If the subkeys are identical, both encryption and decryption end up being the same process. Thus in this situation, both the following apply:
+Performing encryption and decryption with S-DES utilizing a key of all 1's (11111111) does not significantly alter how the algorithm performs. However, during the two feistal key rounds, the subkeys will be equivalent. The S-DES algorithm is symmetric, with the difference between encryption and decryption being the different subkeys utilized in the two rounds (\cite{sdes_anal}). If the subkeys are identical, both encryption and decryption end up being the same process. Thus in this situation, both the following apply:
 
 $$x=E( E(x) )$$
 
@@ -396,7 +421,9 @@ The same situation will occur with a key of all 0's (0000000000) or a key of alt
 \subsection*{Modify S-Boxes}
 
 
-The S-BOX values in the SDESConstants.java file were modified to ensure that the S-DES algorithm still performs accurately. Modification of the S-BOX values within the given constraints - each row must contains 0, 1, 2 and 3 - did not affect the overall algorithm. However, modification of the S-BOX values can reduce the security of DES significantly (\cite{maintext}).
+The S-BOX values in the SDESConstants.java file were modified to ensure that the S-DES algorithm still performs accurately. Modification of the S-BOX values within the given constraints - each row must contains 0, 1, 2 and 3 - did not affect the overall algorithm. However, modification of the S-BOX values can reduce the security of DES significantly (\cite{maintext}).\\
+
+\cite{sans} discusses S-BOX design in-depth, particularly how their design permits the DES algorithm to ensure the "Strict Avalanche Criteria". The majority of attacks on the DES algorithm are centred about the S-BOXES and potential vulnerabilities within them.
 
 \break
 %-------------------------------------------------------------------------------
@@ -410,7 +437,9 @@ The S-BOX values in the SDESConstants.java file were modified to ensure that the
 \vspace*{0.8cm}
 \subsection*{Threats}
 
-wtf does this mean? security or transmission threats???
+There are numerous type of threats that exist within information transmission. These types consist of both errors with data transmission and specific security attacks performed by a third party. In any channel, there exists error causing effects such as noise and interference (\cite{lecture}). These effects cannot be completely prevented in wireless channels and thus, error detection and correction mechanisms must be employed.\\
+
+In addition to errors that can can occur within data channels, security threats are also prevalent within information transmission. Security attacks aim to compromise one of the three fundamental components of information security: confidentiality, integrity and availability. Two forms of security attacks are possible, either passive or attack. There are infinite forms of security attack, with common examples including denial of service, replay attach, man in the middle and session hijacking.
 
 \subsection*{Source Coding}
 
@@ -424,11 +453,13 @@ Error coding in information transmission attempts to enable a high information r
 
 The source coding in the S-DES implementation involves converting the plaintext ascii key into a 10-bit binary code. This is done by taking the hash code of the initial String and performing chopping to ensure a maximum 10-bit key. The implementation shown reads each byte individually from the file and thus no source coding was required. However if the file was read as ascii characters, the conversion of this into a binary representation would be a form of source coding.\\
 
-The S-DES algorithm does not contain any error coding. No checkbits or replication bits are included to help detect errors. This is in contrast to the standard DES algorithm, where 8-bits of the 64-bit key are odd parity checksums. This implies that S-DES has a higher information rate than DES, at the cost of the possible detection of transmission errors (\cite{alttext}).
+The S-DES algorithm does not contain any error coding. No checkbits or replication bits are included to help detect or correct errors. This is in contrast to the standard DES algorithm, where 8-bits of the 64-bit key are odd parity checksums. This implies that S-DES has a higher information rate than DES, at the cost of the possible detection of transmission errors (\cite{alttext}).
 
 \subsection*{S-DES Confusion and Diffusion}
 
-In S-DES, confusion is provided by the S-BOX substitutions performed within the feistal key round. Diffusion in contrast is provided by the permutations applied to the data included the expansion permutation utilized.
+In S-DES, both of Shannon's key principles - confusion and diffusion - are present in order to achieve security. Confusion is the property where each bit of ciphertext depends upon multiple parts of the key (\cite{maintext}). This property is provided in S-DES by the S-BOX substitutions performed within the feistal key round.\\
+
+ Diffusion is the property where a single bit change in the plaintext should respect in multiple bit changes in the ciphertext. This property is provided by the permutations applied to the data included the expansion permutation utilized.
 
 \pagebreak
 
