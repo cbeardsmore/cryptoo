@@ -196,7 +196,7 @@ $$a,b=keys$$
 \vspace{0.5cm}
 
 \noindent
-The modular multiplicative inverse of \textit{a} - \textit{a\textsuperscript{-1}} -  is defined as:
+The modular multiplicative inverse of \textit{a} - (\textit{a\textsuperscript{-1}}) -  is defined as:
 
 $$1=aa^{-1}\;mod\;m$$
 
@@ -216,7 +216,7 @@ D(E(x)) & = a^{-1}(E(x)-b)\;mod\;m \\
 \newpage
 \subsection*{Letter Distribution}
 
-For the given test file shown in Figure 2, the following values and Figure 4 illustrate the letter distribution and relative frequencies. The breakdown of the relative frequencies allow for cryptanalysis to be performed on the affine cipher, thus leading to a factor in its insecurity.
+For the given test file shown in Figure 1, the following values and Figure 4 illustrate the letter distribution and relative frequencies of each letter. The breakdown of the relative frequencies allow for cryptanalysis to be performed on the affine cipher, thus leading to a factor in its insecurity.
 
 \begin{multicols}{7}
 	\begin{itemize}
@@ -275,8 +275,11 @@ $$k = 10bit\;key$$
 $$IP = initial\;permutation$$
 $$IP^{-1} = inverse\;of\;initial\;permutation$$
 
-$$L_i = left\;block\;of\;m\;(5bit)$$
-$$R_i = right\;block\;of\;m\;(5bit)$$\\
+$$L_i = left\;block\;of\;m\;(5bit)\;after\;round\;i$$
+$$R_i = right\;block\;of\;m\;(5bit)\;after\;round\;i$$
+
+$$L^{'}_i = left\;block\;of\;c\;(5bit)\;after\;round\;i$$
+$$R^{'}_i = right\;block\;of\;c\;(5bit)\;after\;round\;i$$\\
 
 Let encryption be defined as the following set of three steps:\\
 
@@ -294,21 +297,33 @@ $$R_i=L_{i-1}\oplus F(R_{i-1},k_i)$$
 $$c=IP^{-1}(L_{16},R_{16})$$\\
 \end{center}
 
+The following property is also applicable:
+
+$$((A\oplus B) \oplus B) = A$$
+
+\newpage
 Next, it can be proven that plaintext \textit{m} can be discovered from ciphertext \textit{c} given the full key \textit{k}:
 
-$$(L^{'}_0,R^{'}_0)=IP(m)$$
-$$\therefore (L^{'}_0,R^{'}_0)=(R_2,L_2)$$
+$$IP(m)=(L_0,R_0)$$
+$$IP(c)=(L^{'}_0,R^{'}_0)$$
 
-$$R^{'}_0=[L_1\oplus f(R_1,k_2)]\oplus[f(R_1,k_2)]$$
-$$R^{'}_1=L_1$$
-$$L^{'}_1=R_1$$
+$$L_2=R_1$$
+$$R_2=[L_1\oplus f(R_1,k_2)]$$
+$$\therefore R^{'}_1=L_1$$
 
+$$L^{'}_1=R^{'}_0=L_2=R_1$$
+$$R^{'}_1=[L^{'}_0\oplus f(R^{'}_0,k_2)]$$
+$$\therefore R^{'}_1=[R_2\oplus f(R_1,k_2)]$$
+$$\therefore R^{'}_1=[R_2\oplus f(R_1,k_2)]\oplus f(R_1,k_2)$$
+$$\therefore R^{'}_1=R_1$$\\
 
+\noindent
+This concludes that the S-DES algorithm is symmetric and that decryption is the inverse of encryption. The input to the switch function on the encryption stage is the same as the input to the switch function on the decryption stage, with the halves in reverse order.
 
 \newpage
 \subsection*{Pseudo Code Structure}
 
-The pseudo-code structure of the three key functions utilized in the S-DES implementation is illustrated below. The three function constitute the core functionality of the S-DES algorithm.\\
+The pseudo-code structure of the three key functions utilized in the S-DES implementation is illustrated below. The three functions constitute the core functionality of the S-DES algorithm.\\
 
 \begin{algorithmic}
 \Function{KeyGeneration}{int key}
@@ -439,19 +454,29 @@ The S-BOX values in the SDESConstants.java file were modified to ensure that the
 
 There are numerous type of threats that exist within information transmission. These types consist of both errors with data transmission and specific security attacks performed by a third party. In any channel, there exists error causing effects such as noise and interference (\cite{lecture}). These effects cannot be completely prevented in wireless channels and thus, error detection and correction mechanisms must be employed.\\
 
-In addition to errors that can can occur within data channels, security threats are also prevalent within information transmission. Security attacks aim to compromise one of the three fundamental components of information security: confidentiality, integrity and availability. Two forms of security attacks are possible, either passive or attack. There are infinite forms of security attack, with common examples including denial of service, replay attach, man in the middle and session hijacking.
+In addition to errors that can can occur within data channels, security threats are also prevalent within information transmission. Security attacks aim to compromise one of the three fundamental components of information security: confidentiality, integrity and availability. Two forms of security attacks are possible, either passive or attack. There are infinite forms of security attack, with common examples including denial of service, replay attack, man in the middle and session hijacking.
 
 \subsection*{Source Coding}
 
-Source coding in information transmission aims to compress natural messages for highly efficient message transfer.
+Source coding in information transmission aims to compress natural messages for highly efficient message transfer (\cite{source_coding}). Thus, the source code aims to minimize the number of bits required per signal without significant distortion. Figure 8 illustrates where the source encoding occurs in respect to the entire structure of a transmission system. Note that the error control section of the system is independent from the source coding as both perform substantially different roles.
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[height=0.2\textheight,width=0.4\textwidth]{source_coding.png}
+		\caption{Transmission System Structure (\cite{source_coding})}
+		\label{fig:trans}		
+	\end{center}
+\end{figure}
 
 \subsection*{Error Coding}
 
-Error coding in information transmission attempts to enable a high information rate by the introduction of redundancy to data, as well as via error detection and correction mechanisms. A simplistic example of error coding is the repetition code. Forms of error detection and correction mechanisms include parity checksums in addition to the ISBN and UPC codes.
+Error coding in information transmission attempts to enable a high information rate by the introduction of redundancy to data, as well as via error detection and correction mechanisms. A simplistic example of error coding is the repetition code. Forms of error detection and correction mechanisms also include parity checksums in addition to the ISBN and UPC codes. The disadvantage of error coding is the overhead contained in sending additional data bits, thus reducing the overall information rate of the channel.\\
+
+A key metric heavily utilized in error coding is Hamming distance. The Hamming distance between two codewords is the number of places in which they differ (\cite{lecture}). This metric determines how effective a code is in both correcting and detecting various transmission errors due to channel noise.
 
 \subsection*{S-DES Coding}
 
-The source coding in the S-DES implementation involves converting the plaintext ascii key into a 10-bit binary code. This is done by taking the hash code of the initial String and performing chopping to ensure a maximum 10-bit key. The implementation shown reads each byte individually from the file and thus no source coding was required. However if the file was read as ascii characters, the conversion of this into a binary representation would be a form of source coding.\\
+The source coding in the S-DES implementation involves converting the plaintext ascii key into a 10-bit binary code. This is done by taking the hash code of the initial String and performing chopping to ensure a maximum 10-bit key. The implementation shown reads each byte individually from the file and thus no source coding was required. However if the file was read as ascii characters, the conversion of this into a binary representation would be a form of source coding, as the message is being compressed into a more efficient form for transmission.\\
 
 The S-DES algorithm does not contain any error coding. No checkbits or replication bits are included to help detect or correct errors. This is in contrast to the standard DES algorithm, where 8-bits of the 64-bit key are odd parity checksums. This implies that S-DES has a higher information rate than DES, at the cost of the possible detection of transmission errors (\cite{alttext}).
 
@@ -459,7 +484,7 @@ The S-DES algorithm does not contain any error coding. No checkbits or replicati
 
 In S-DES, both of Shannon's key principles - confusion and diffusion - are present in order to achieve security. Confusion is the property where each bit of ciphertext depends upon multiple parts of the key (\cite{maintext}). This property is provided in S-DES by the S-BOX substitutions performed within the feistal key round.\\
 
- Diffusion is the property where a single bit change in the plaintext should respect in multiple bit changes in the ciphertext. This property is provided by the permutations applied to the data included the expansion permutation utilized.
+ Diffusion is the property where a single bit change in the plaintext should respect in multiple bit changes in the ciphertext. This property is provided by the permutations applied to the plaintext. This includes all of the permutations performed within the algorithm in addition to the expansion permutation in the feistal key round.
 
 \pagebreak
 
@@ -500,7 +525,7 @@ In S-DES, both of Shannon's key principles - confusion and diffusion - are prese
 
 \break
 \setlength\bibitemsep{4\itemsep}
-\printbibliography[heading=bibintoc,title={References}]
+\printbibliography[title={References}]
 
 %-------------------------------------------------------------------------------
 \end{document}   

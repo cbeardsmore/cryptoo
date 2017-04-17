@@ -112,6 +112,23 @@
       \field{title}{Cryptography and Network Security: Principles and Practice}
       \field{year}{2011}
     \endentry
+    \entry{source_coding}{article}{}
+      \name{author}{1}{}{%
+        {{hash=f8290117a01a7e398b352699f9043b8f}{Wiegand}{W\bibinitperiod}{Heiko}{H\bibinitperiod}{}{}{Thomas\bibnamedelimb &\bibnamedelima Schwarz}{T\bibinitperiod\bibinitdelim &\bibinitperiod\bibinitdelim S\bibinitperiod}}%
+      }
+      \strng{namehash}{f8290117a01a7e398b352699f9043b8f}
+      \strng{fullhash}{f8290117a01a7e398b352699f9043b8f}
+      \field{sortinit}{W}
+      \field{sortinithash}{99e3ba1b3f78bb6f073e7fa7ac11636b}
+      \field{labelyear}{2011}
+      \field{datelabelsource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Foundations and Trends in Signal Processing}
+      \field{title}{Source Coding: Part I of Fundamentals of Source and Video Coding}
+      \field{volume}{4}
+      \field{year}{2011}
+    \endentry
   \endsortlist
 \endrefsection
 \endinput

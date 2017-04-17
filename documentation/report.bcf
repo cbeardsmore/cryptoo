@@ -2350,8 +2350,11 @@
     <bcf:citekey order="5">maintext</bcf:citekey>
     <bcf:citekey order="6">sans</bcf:citekey>
     <bcf:citekey order="7">lecture</bcf:citekey>
-    <bcf:citekey order="8">alttext</bcf:citekey>
-    <bcf:citekey order="9">maintext</bcf:citekey>
+    <bcf:citekey order="8">source_coding</bcf:citekey>
+    <bcf:citekey order="9">source_coding</bcf:citekey>
+    <bcf:citekey order="10">lecture</bcf:citekey>
+    <bcf:citekey order="11">alttext</bcf:citekey>
+    <bcf:citekey order="12">maintext</bcf:citekey>
   </bcf:section>
   <bcf:sortlist section="0" name="nty" type="entry" sortscheme="nty">
   <bcf:sorting>
