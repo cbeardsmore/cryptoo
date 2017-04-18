@@ -153,11 +153,13 @@ There are a total of 12 possible \textit{a} values that are coprime with \textit
 $$12*26=312$$
 
 \noindent
-Of these, 26 keys are trivial Caesar ciphers and 286 are non-trivial (\cite{maintext}).
+Of these, 26 keys are trivial Caesar ciphers and 286 are non-trivial (\cite{maintext}). In comparison to DES and other high-level encryption schemes, the affine cipher keyspace is extremely small, leading to its computational insecurity.
+
+
 \newpage
 \subsection*{Recovered Plaintext}
 
-The implemented Affine cipher works correctly with all eligible keys. The recovered plaintext in Figure 3 is identical to the original plaintext of Figure 1. No major problems were encountered during the implementation phase.
+The implemented Affine cipher works correctly with all eligible keys. The recovered plaintext in Figure 3 is identical to the original plaintext of Figure 1, as confirmed by the Linux \textit{diff} command. No major problems were encountered during the implementation phase.
 \vspace{1cm}
 \begin{figure}[H]
 	\includegraphics[width=\textwidth]{affine_plaintext.png}
@@ -205,7 +207,8 @@ It can be shown that \textit{D(x)} is the inverse of \textit{E(x)} via the modul
 
 \begin{equation*}
 \begin{split}
-D(E(x)) & = a^{-1}(E(x)-b)\;mod\;m \\
+D(E(x)) & = a^{-1}(c-b)\;mod\;m \\
+& = a^{-1}(E(x)-b)\;mod\;m \\
 & = a^{-1}(( (ax+b)\;mod\;m )-b)\;mod\;m \\
 & = a^{-1} (ax+b-b) \;mod\;m \\
 & = a^{-1}ax\;mod\;m \\
@@ -285,7 +288,7 @@ Let encryption be defined as the following set of three steps:\\
 
 \begin{center}
 \textbf{Step 1}
-$$(L_0,R_0)=IP(p)$$
+$$(L_0,R_0)=IP(m)$$
 
 \textbf{Step 2}
 $$Let\;i=1,2$$
@@ -294,7 +297,7 @@ $$L_i=R_{i-1}$$
 $$R_i=L_{i-1}\oplus F(R_{i-1},k_i)$$
 
 \textbf{Step 3}
-$$c=IP^{-1}(L_{16},R_{16})$$\\
+$$c=IP^{-1}(L_{2},R_{2})\\$$\\
 \end{center}
 
 The following property is also applicable:
@@ -302,14 +305,18 @@ The following property is also applicable:
 $$((A\oplus B) \oplus B) = A$$
 
 \newpage
+\noindent
 Next, it can be proven that plaintext \textit{m} can be discovered from ciphertext \textit{c} given the full key \textit{k}:
 
 $$IP(m)=(L_0,R_0)$$
-$$IP(c)=(L^{'}_0,R^{'}_0)$$
+$$IP(c)=(L^{'}_0,R^{'}_0)\\$$\\
 
-$$L_2=R_1$$
-$$R_2=[L_1\oplus f(R_1,k_2)]$$
-$$\therefore R^{'}_1=L_1$$
+\noindent After the first key round on encryption, the following represents the message:
+
+$$L_1=R_0$$
+$$R_1=[L_0\oplus f(R_0,k_1)]\\$$\\
+
+\noindent After the first key round on decryption, the following represents the ciphertext::
 
 $$L^{'}_1=R^{'}_0=L_2=R_1$$
 $$R^{'}_1=[L^{'}_0\oplus f(R^{'}_0,k_2)]$$
@@ -318,7 +325,7 @@ $$\therefore R^{'}_1=[R_2\oplus f(R_1,k_2)]\oplus f(R_1,k_2)$$
 $$\therefore R^{'}_1=R_1$$\\
 
 \noindent
-This concludes that the S-DES algorithm is symmetric and that decryption is the inverse of encryption. The input to the switch function on the encryption stage is the same as the input to the switch function on the decryption stage, with the halves in reverse order.
+This concludes that the S-DES algorithm is symmetrical and that decryption is the inverse of encryption. The input to the switch function on the encryption stage is the same as the input to the switch function on the decryption stage, with the halves in reverse order.
 
 \newpage
 \subsection*{Pseudo Code Structure}
@@ -390,7 +397,7 @@ For clarity, the pseudo code structure for the fMap function in addition to how 
 
 \newpage
 \noindent
-Figure 5 illustrates the overall scheme of the simplified DES algorithm. It is evident that the algorithm is symmetric due to decryption being the clear inverse of encryption. The key generation scheme is also displayed.
+Figure 5 illustrates the overall scheme of the simplified DES algorithm. It is evident that the algorithm is symmetrical due to decryption being the clear inverse of encryption. The key generation scheme is also displayed.
 
 \begin{figure}[H]
 	\begin{center}
@@ -403,7 +410,7 @@ Figure 5 illustrates the overall scheme of the simplified DES algorithm. It is e
 \newpage
 \subsection*{Encrypted Test File}
 
-The included code implementation for S-DES works correctly and there were no difficulties faced in the process of programming. Figure 6 shows the plaintext after encryption while Figure 7 produces the original plaintext via decryption of the ciphertext.
+The included code implementation for S-DES works correctly and there were no difficulties faced in the process of programming. Figure 6 shows a portion of the  plaintext after encryption while Figure 7 produces the same portion of the original plaintext via decryption of the ciphertext.
 
 \begin{figure}[H]
 	\includegraphics[height=\textheight/6,width=\textwidth]{sdes_cipher1.png}
@@ -429,16 +436,16 @@ Performing encryption and decryption with S-DES utilizing a key of all 1's (1111
 
 $$x=E( E(x) )$$
 
-$$x=D( D(x) )$$
+$$x=D( D(x) )\\$$\\
 
-The same situation will occur with a key of all 0's (0000000000) or a key of alternating 1's and 0's (1010101010) for the same reasons. These keys are termed "weak keys" (\cite{alttext}). Due to the large keyspace of S-DES, the rare occurence of these weak keys is not considered a major flaw in the overriding algorithm.
+The same situation will occur with a key of all 0's (0000000000) or a key of alternating 1's and 0's (1010101010) for the same reasons. These keys are termed "weak keys" (\cite{alttext}). Due to the large keyspace of S-DES, the rare occurence of these weak keys is not considered a major flaw in the overriding algorithm. In the DES encryption scheme, there are 4 weak keys and 12 semi-weak keys out of the entire keyspace of $2^{56}$ keys.
 
 \subsection*{Modify S-Boxes}
 
 
-The S-BOX values in the SDESConstants.java file were modified to ensure that the S-DES algorithm still performs accurately. Modification of the S-BOX values within the given constraints - each row must contains 0, 1, 2 and 3 - did not affect the overall algorithm. However, modification of the S-BOX values can reduce the security of DES significantly (\cite{maintext}).\\
+The S-BOX values in the SDESConstants.java file were modified to ensure that the S-DES algorithm still performs accurately. Modification of the S-BOX values within the given constraints - each row must contains 0, 1, 2 and 3 - did not affect the overall algorithm and both encryption and decryption will still applicable. However, modification of the S-BOX values can reduce the security of DES significantly (\cite{maintext}).\\
 
-\cite{sans} discusses S-BOX design in-depth, particularly how their design permits the DES algorithm to ensure the "Strict Avalanche Criteria". The majority of attacks on the DES algorithm are centred about the S-BOXES and potential vulnerabilities within them.
+\cite{sans} discusses S-BOX design in-depth, particularly how their design permits the DES algorithm to ensure the "Strict Avalanche Criteria". The majority of attacks on the DES algorithm are centred about the S-BOXES and potential vulnerabilities within them. There is still suspicion around the security of the S-BOXES in DES due to their design criteria not being made public, yet no security flaw has been determined as of yet (\cite{maintext}).
 
 \break
 %-------------------------------------------------------------------------------
@@ -458,7 +465,7 @@ In addition to errors that can can occur within data channels, security threats 
 
 \subsection*{Source Coding}
 
-Source coding in information transmission aims to compress natural messages for highly efficient message transfer (\cite{source_coding}). Thus, the source code aims to minimize the number of bits required per signal without significant distortion. Figure 8 illustrates where the source encoding occurs in respect to the entire structure of a transmission system. Note that the error control section of the system is independent from the source coding as both perform substantially different roles.
+Source coding in information transmission aims to compress natural messages for highly efficient message transfer (\cite{source_coding}). Thus, the source code aims to minimize the number of bits required per signal without significant distortion. Figure 8 illustrates where the source encoding occurs in respect to the entire structure of a transmission system. Note that the error control section of the system is independent from the source coding as both perform substantially different roles. Examples of source encoding include Huffman coding and the Lempel-Ziv algorithm.
 
 \begin{figure}[H]
 	\begin{center}
@@ -482,9 +489,9 @@ The S-DES algorithm does not contain any error coding. No checkbits or replicati
 
 \subsection*{S-DES Confusion and Diffusion}
 
-In S-DES, both of Shannon's key principles - confusion and diffusion - are present in order to achieve security. Confusion is the property where each bit of ciphertext depends upon multiple parts of the key (\cite{maintext}). This property is provided in S-DES by the S-BOX substitutions performed within the feistal key round.\\
+In S-DES, both of Shannon's key principles - confusion and diffusion - are present in order to achieve security. Confusion is the property where each bit of ciphertext depends upon multiple parts of the key (\cite{maintext}). This property is provided in S-DES by the S-BOX substitutions performed within the feistal key round. This ensures that the algorithm is non-linear and solid in respect to destroying natural patterns within the plaintext.\\
 
- Diffusion is the property where a single bit change in the plaintext should respect in multiple bit changes in the ciphertext. This property is provided by the permutations applied to the plaintext. This includes all of the permutations performed within the algorithm in addition to the expansion permutation in the feistal key round.
+ Diffusion is the property where a single bit change in the plaintext should result in multiple bit changes in the ciphertext, sometimes referred to as the Avalanche property. This property is provided by the permutations applied to the plaintext. This includes all of the permutations performed within the algorithm in addition to the expansion permutation in the feistal key round. Patterns in the message are effectively scattered throughout the output to make them harder to spot (\cite{alttext}).
 
 \pagebreak
 
@@ -509,9 +516,9 @@ In S-DES, both of Shannon's key principles - confusion and diffusion - are prese
 % SDES CODE
 
 \vspace*{-0.8cm}
-%\begin{center}
+\begin{center}
 	\section*{S-DES Source Code}
-%\end{center}
+\end{center}
 
 \subsection*{SDESConstants.java}
 \lstinputlisting[language=java,linerange={} ]{../SDES/SDESConstants.java}\pagebreak{}
