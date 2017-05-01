@@ -103,7 +103,7 @@
 
 There are two keys required, \textit{a} and \textit{b}. The first is required to be \textit{coprime} with the length of the alphabet, in this scenario \textit{26}. The second key representing the linear shift must be both positive and less than the length of the alphabet. To check if the \textit{a} value is coprime, the following greatest common denominator check was utilized. If the greatest common denominator of \textit{a} and 26 is 1, the value of \textit{a} is \textit{coprime} and the key is valid in combination with any valid \textit{b} value.\\
 
-\lstinputlisting[language=C,linerange={34-60} ]{../affine/keyeligible.c} 
+\lstinputlisting[language=C,linerange={34-60} ]{../../affine/keyeligible.c} 
 
 \vspace{0.5cm}
 \noindent
@@ -297,7 +297,7 @@ $$L_i=R_{i-1}$$
 $$R_i=L_{i-1}\oplus F(R_{i-1},k_i)$$
 
 \textbf{Step 3}
-$$c=IP^{-1}(L_{2},R_{2})\\$$\\
+$$c=IP^{-1}(L_{2},R_{2})$$
 \end{center}
 
 The following property is also applicable:
@@ -504,28 +504,28 @@ In S-DES, both of Shannon's key principles - confusion and diffusion - are prese
 \end{center}
 
 \subsection*{keyeligible.h}
-\lstinputlisting[language=C,linerange={} ]{../affine/keyeligible.h}\pagebreak{}
+\lstinputlisting[language=C,linerange={} ]{../../affine/keyeligible.h}\pagebreak{}
 \subsection*{keyeligible.c}
-\lstinputlisting[language=C,linerange={} ]{../affine/keyeligible.c}\pagebreak{}
+\lstinputlisting[language=C,linerange={} ]{../../affine/keyeligible.c}\pagebreak{}
 \subsection*{affine.h}
-\lstinputlisting[language=C,linerange={} ]{../affine/affine.h}\pagebreak{}
+\lstinputlisting[language=C,linerange={} ]{../../affine/affine.h}\pagebreak{}
 \subsection*{affine.c}
-\lstinputlisting[language=C,linerange={} ]{../affine/affine.c}\pagebreak{}
+\lstinputlisting[language=C,linerange={} ]{../../affine/affine.c}\pagebreak{}
 
 %-------------------------------------------------------------------------------
 % SDES CODE
 
 \vspace*{-0.8cm}
-\begin{center}
+%\begin{center}
 	\section*{S-DES Source Code}
-\end{center}
+%\end{center}
 
 \subsection*{SDESConstants.java}
-\lstinputlisting[language=java,linerange={} ]{../SDES/SDESConstants.java}\pagebreak{}
+\lstinputlisting[language=java,linerange={} ]{../../SDES/SDESConstants.java}\pagebreak{}
 \subsection*{SDESBits.java}
-\lstinputlisting[language=java,linerange={} ]{../SDES/SDESBits.java}\pagebreak{}
+\lstinputlisting[language=java,linerange={} ]{../../SDES/SDESBits.java}\pagebreak{}
 \subsection*{SDES.java}
-\lstinputlisting[language=java,linerange={} ]{../SDES/SDES.java}\pagebreak{}
+\lstinputlisting[language=java,linerange={} ]{../../SDES/SDES.java}\pagebreak{}
 
 %-------------------------------------------------------------------------------   
 % REFERENCES
