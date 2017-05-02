@@ -17,6 +17,8 @@ public class RSA
     public static void main( String[] args )
     {
         //select two primes p/q using Q3 of lab 2. between 1000 and 10000
+        int p = NumberTheory.generatePrime();
+        int q = NumberTheory.generatePrime();
 
         //use EEA to select e,n satisfying gcd(e, varphi(n)) == 1
 
@@ -25,6 +27,7 @@ public class RSA
         //convert keyboard symbol to ASCII code for encrypt + decrypt
 
         //implement RSA encryption and decryption using Q1 of this assignment
+        
     }
 
 //---------------------------------------------------------------------------
