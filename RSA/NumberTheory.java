@@ -171,4 +171,24 @@ public class NumberTheory
     }
 
 //---------------------------------------------------------------------------
+//NAME: generateE()
+//IMPORT: totN (int)
+//EXPORT: e (int)
+//PURPOSE: Generate public key E based on totient N provided
+
+    public static int generateE( int totN )
+    {
+        int e = 0;
+        int gcd = 0;
+        Random rand = new Random();
+        do
+        {
+            e = rand.nextInt( totN );
+            gcd = gcdFunction( e, totN );
+        } while ( gcd != 1 );
+
+        return e;
+    }
+
+//---------------------------------------------------------------------------
 }
