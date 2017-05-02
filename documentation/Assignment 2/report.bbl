@@ -19,7 +19,25 @@
 
 \refsection{0}
   \sortlist{nty}{nty}
-    \entry{lecture}{misc}{}
+    \entry{lecture2}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=69d4858bbe326f3cc36ba2275eeea7a7}{\vspace{0mm}Liu}{\\bibinitperiod}{Wan-Quan}{W\bibinithyphendelim Q\bibinitperiod}{}{}{}{}}%
+      }
+      \list{organization}{1}{%
+        {Curtin University}%
+      }
+      \strng{namehash}{69d4858bbe326f3cc36ba2275eeea7a7}
+      \strng{fullhash}{69d4858bbe326f3cc36ba2275eeea7a7}
+      \field{sortinit}{0}
+      \field{sortinithash}{990108227b3316c02842d895999a0165}
+      \field{labelyear}{2017}
+      \field{datelabelsource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Lecture 6: Number Theory}
+      \field{year}{2017}
+    \endentry
+    \entry{lecture1}{misc}{}
       \name{author}{1}{}{%
         {{hash=6e01a6e617123652b3feeceef9bb886d}{Liu}{L\bibinitperiod}{Wan-Quan}{W\bibinithyphendelim Q\bibinitperiod}{}{}{}{}}%
       }
@@ -34,7 +52,7 @@
       \field{datelabelsource}{}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{title}{Lecture 3: Coding}
+      \field{title}{Lecture 5: Public Key Cryptosystem}
       \field{year}{2017}
     \endentry
     \entry{alttext}{book}{}
@@ -73,23 +91,6 @@
       \field{labeltitlesource}{title}
       \field{edition}{5}
       \field{title}{Cryptography and Network Security: Principles and Practice}
-      \field{year}{2011}
-    \endentry
-    \entry{source_coding}{article}{}
-      \name{author}{1}{}{%
-        {{hash=5f3e5a5a857b2eca66582913abea3b89}{Wiegand}{W\bibinitperiod}{Heiko}{H\bibinitperiod}{}{}{Thomas\bibnamedelimb \&\bibnamedelima Schwarz}{T\bibinitperiod\bibinitdelim \~S\bibinitperiod}}%
-      }
-      \strng{namehash}{5f3e5a5a857b2eca66582913abea3b89}
-      \strng{fullhash}{5f3e5a5a857b2eca66582913abea3b89}
-      \field{sortinit}{W}
-      \field{sortinithash}{99e3ba1b3f78bb6f073e7fa7ac11636b}
-      \field{labelyear}{2011}
-      \field{datelabelsource}{}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{journaltitle}{Foundations and Trends in Signal Processing}
-      \field{title}{Source Coding: Part I of Fundamentals of Source and Video Coding}
-      \field{volume}{4}
       \field{year}{2011}
     \endentry
   \endsortlist

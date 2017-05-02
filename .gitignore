@@ -37,3 +37,6 @@
 *.aux
 *.out
 *.gz
+*.bbl
+*.bcf
+*.blg
