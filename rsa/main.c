@@ -246,8 +246,8 @@ int64_t generateE( int64_t totN )
 
 void printKeys(void)
 {
-    printf("\tp = %lld\n\tq = %lld", p, q );
-    printf("\tn = %lld\n\ttotN = %lld", n, totN );
-    printf("\te = %lld\n\td = %lld", e, d );
+    printf("\tp = %lld\n\tq = %lld\n", p, q );
+    printf("\tn = %lld\n\ttotN = %lld\n", n, totN );
+    printf("\te = %lld\n\td = %lld\n", e, d );
 }
 //------------------------------------------------------------------------------
