@@ -99,7 +99,7 @@
 
 \subsection*{Modular Exponentiation}
 \noindent
-Modular exponentiation is used to calculate the remainder when a base \textit{b} is raised to an exponent \textit{e} and reduced by some modulus \textit{m}. The simple right-to-left method provided by \cite{alttext} utilizes exponentiation by squaring. The full Java code for the implementation of this method is illustrated below. The running time of this algorithm is $O(log\;e)$ which is a huge improvement over more simplistic methods of time $O(e)$ (\cite{maintext}).
+Modular exponentiation is used to calculate the remainder when a base \textit{b} is raised to an exponent \textit{e} and reduced by some modulus \textit{m}. The simple right-to-left method provided by \cite{alttext} utilizes exponentiation by squaring. The full Java code for the implementation of this method is illustrated below. The running time of this algorithm is $O(log\;e)$ which provides a significant improvement over more simplistic methods of time complexity $O(e)$ (\cite{maintext}).
 
 \vspace{0.5cm}
 \lstinputlisting[language=C,linerange={58-92} ]{../../rsa/numberTheory.c}{}
@@ -108,6 +108,14 @@ Modular exponentiation is used to calculate the remainder when a base \textit{b}
 The code above was utilized to calculate the following example:
 
 $$236^{239721}\;mod\;2491=236$$
+
+The running of this code provided the following output:
+
+\begin{figure}[H]
+		\centering
+	\includegraphics[height=\textheight/10,width=\textwidth/3]{exponentiation.png}
+	\caption{Modular Exponentiation Example}
+\end{figure}
 
 \pagebreak
 
@@ -183,7 +191,7 @@ $$1-0.493=0.507=50.7\%$$
 
 \vspace{0.5cm}
 \noindent
-It is thus evident that the probability of two people in a set of 23 random selected shared the same birthday is greater than 50\%.
+It is thus evident that the probability of two people in a set of 23 random selected sharing the same birthday is greater than 50\%.
 
 \pagebreak
 

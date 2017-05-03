@@ -22,9 +22,8 @@ int main( int argc, char **argv )
     }
 
     FuncPtr modeFunc = NULL;
-    input = NULL;
-    output = NULL;
-	n = 0;
+    FILE* input = NULL;
+    FILE* output = NULL;
 
 	//seed random
     srand( time(NULL) );
@@ -50,17 +49,18 @@ int main( int argc, char **argv )
 	}
 
     //perform actual encryption or decryption
-	while( (*modeFunc)() != EOF );
+	while( (*modeFunc)(input,output) != EOF );
 
 	return 0;
 }
 
 //------------------------------------------------------------------------------
 //NAME: encrypt()
+//IMPORT: input (FILE*), output (FILE*)
 //EXPORT: retVal (int)
 //PURPOSE: Reads in two bytes, encrypts, and write back out 4 bytes
 
-int encrypt(void)
+int encrypt(FILE* input, FILE* output)
 {
 	int c;
     int retVal = 0;
@@ -68,7 +68,7 @@ int encrypt(void)
 	int64_t ciphertext;
 
     //read in two characters
-	for( int ii = 0; ii < 2; ii++ )
+	for( int ii = 0; ii < PLAIN_BYTES; ii++ )
 	{
 		c = fgetc(input);
 		if(c == EOF)
@@ -87,7 +87,7 @@ int encrypt(void)
 		ciphertext = modularExpo(plaintext, e, n);
 
         //write back out 4 characters
-		for( int ii = 0; ii < 4; ii++)
+		for( int ii = 0; ii < CIPHER_BYTES; ii++)
 		{
 			c = ciphertext >> ( 3 - ii ) * 8;
 			fputc(c, output);
@@ -106,17 +106,18 @@ int encrypt(void)
 
 //------------------------------------------------------------------------------
 //NAME: decrypt()
+//IMPORT: input (FILE*), output (FILE*)
 //EXPORT: retVal (int)
 //PURPOSE: Reads in 4 bytes, decrypts, and write back out 2 bytes
 
-int decrypt(void)
+int decrypt(FILE* input, FILE* output)
 {
 	int c;
 	int64_t plaintext;
 	int64_t ciphertext = 0;
 	int retVal = 0;
 
-	for(int ii = 0; ii < 4; ii++ )
+	for(int ii = 0; ii < CIPHER_BYTES; ii++ )
 	{
 		c = fgetc(input);
 		if( c == EOF )
@@ -135,7 +136,7 @@ int decrypt(void)
 		plaintext = modularExpo(ciphertext, d, n);
 
         //write back out 2 bytes
-		for( int ii = 0; ii < 2; ii++)
+		for( int ii = 0; ii < PLAIN_BYTES; ii++)
 		{
 			c = plaintext >> ( 1 - ii ) * 8;
 			if( c != 0 )

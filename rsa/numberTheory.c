@@ -63,7 +63,7 @@ int64_t generatePrime( int lower, int upper)
 
 int64_t modularExpo(int64_t base, int64_t exponent, int64_t modulus)
 {
-	int64_t result = 1;
+    int64_t result = 1;
     base = base % modulus;
 
     //check upper limit
@@ -75,18 +75,18 @@ int64_t modularExpo(int64_t base, int64_t exponent, int64_t modulus)
         return 0;
 
     //loop until all exponents reviewed
-	while( exponent > 0 )
-	{
-		//check least significant bit
-		if( exponent & 1 )
-			result = ( result * base ) % modulus;
+    while( exponent > 0 )
+    {
+    	//check least significant bit
+    	if( exponent & 1 )
+    		result = ( result * base ) % modulus;
 
-		//shift exponent to consider next bit
-		exponent >>= 1;
-		base = ( base * base ) % modulus;
-	}
+    	//shift exponent to consider next bit
+    	exponent >>= 1;
+    	base = ( base * base ) % modulus;
+    }
 
-	return result;
+    return result;
 }
 
 //------------------------------------------------------------------------------

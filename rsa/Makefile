@@ -8,7 +8,7 @@ CC=gcc
 CFLAGS=-std=c99 -Wall -pedantic -g
 EXEC=rsa
 OBJ=main.o numberTheory.o
-TESTS=rsa.txt output.txt original.txt
+TESTS=output.txt original.txt
 
 # RULES + DEPENDENCIES
 
