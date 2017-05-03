@@ -15,7 +15,7 @@ public class NumberTheory
     public static final long LIMIT = 10000000000L;
     public static final int LOWER_PRIME = 1000;
     public static final int UPPER_PRIME = 10000;
-    public static final int CONFIDENCE = 25;
+    public static final int CONFIDENCE = 50;
 
 //---------------------------------------------------------------------------
     //NAME: modularExpo()
@@ -23,9 +23,10 @@ public class NumberTheory
     //EXPORT: result (int)
     //PURPOSE: Calculate the value base^exponent mod modulus efficiently
 
-    public static int modularExpo( int base, int exponent, int modulus )
+    public static int modularExpo( int b1, int exponent, int modulus )
     {
-        int result = 1;
+        long result = 1;
+        long base = b1;
 
         //check upper limit
         if ( ( base > LIMIT ) || ( exponent > LIMIT ) || ( modulus > LIMIT) )
@@ -46,12 +47,12 @@ public class NumberTheory
                 //increase result by the base
                 result = ( result * base ) % modulus;
             //shift exponent to consider the next higher order bit
-            exponent = exponent >> 1;
+            exponent = exponent >>> 1;
             //increase the base
             base = ( base * base ) % modulus;
         }
 
-        return result;
+        return (int)result;
     }
 
 //------------------------------------------------------------------------------
@@ -67,7 +68,10 @@ public class NumberTheory
          //number generated will be between 1000 and 10000
          int newPrime = rand.nextInt( UPPER_PRIME - LOWER_PRIME ) + LOWER_PRIME;
          while ( !primalityTest( newPrime, CONFIDENCE ) )
-            newPrime = rand.nextInt( UPPER_PRIME - LOWER_PRIME ) + LOWER_PRIME;
+         {
+             newPrime = rand.nextInt( UPPER_PRIME - LOWER_PRIME ) + LOWER_PRIME;
+             System.out.println(newPrime);
+         }
 
          return newPrime;
      }
@@ -80,8 +84,8 @@ public class NumberTheory
 
     private static boolean primalityTest( int prime, int tests )
     {
-        long a, r;
-        long expo;
+        int a, expo;
+        long r;
         Random rand = new Random();
 
         //perform multiple tests
@@ -90,7 +94,7 @@ public class NumberTheory
             //calculate r result
             a = rand.nextInt() % ( prime - 1 ) + 1;
             expo = ( prime - 1 ) >> 1;
-            r = (long)Math.pow( a, expo ) % prime;
+            r = modularExpo( a, expo, prime );
 
             //if r not 1 or -1 it is 100% not prime
             if ( ( r != 1 ) && ( r != -1 ) )
