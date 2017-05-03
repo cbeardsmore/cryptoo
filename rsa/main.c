@@ -21,10 +21,9 @@ int main( int argc, char **argv )
         exit(1);
     }
 
-
+    FuncPtr modeFunc = NULL;
     input = NULL;
     output = NULL;
-    modeFunc = NULL;
 	n = 0;
 
 	//seed random
@@ -34,7 +33,7 @@ int main( int argc, char **argv )
     generateKeys();
 
     //read command line arguments, ignoring the first
-	readArgs( argc, argv );
+	modeFunc = readArgs( argc, argv );
 
     //open files
 	input = fopen(inFile, "rb");
@@ -51,7 +50,7 @@ int main( int argc, char **argv )
 	}
 
     //perform actual encryption or decryption
-	while( modeFunc() != EOF );
+	while( (*modeFunc)() != EOF );
 
 	return 0;
 }
@@ -160,8 +159,9 @@ int decrypt(void)
 //IMPORT: argc (int), argv (char**)
 //PURPOSE: Read the command line arguments into global variables
 
-void readArgs( int argc, char **argv )
+FuncPtr readArgs( int argc, char **argv )
 {
+    FuncPtr modeFunc = NULL;
     //rename for readability
     inFile = argv[1];
     outFile = argv[2];
@@ -192,6 +192,7 @@ void readArgs( int argc, char **argv )
         exit(1);
     }
 
+    return modeFunc;
 }
 
 //------------------------------------------------------------------------------

@@ -8,8 +8,10 @@ CC=gcc
 CFLAGS=-std=c99 -Wall -pedantic -g
 EXEC=rsa
 OBJ=main.o numberTheory.o
+TESTS=rsa.txt output.txt original.txt
 
 # RULES + DEPENDENCIES
+
 $(EXEC): $(OBJ)
 	$(CC) -o $(EXEC) $(OBJ)
 
@@ -20,4 +22,4 @@ numberTheory.o: numberTheory.c numberTheory.h
 	$(CC) $(CFLAGS) -c -o numberTheory.o numberTheory.c
 
 clean:
-	rm -r $(OBJ) $(EXEC)
+	rm -r $(OBJ) $(EXEC) $(TESTS)
