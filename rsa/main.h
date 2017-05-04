@@ -2,16 +2,16 @@
 *	FILE: main.h
 *	AUTHOR: Connor Beardsmore - 15504319
 *	UNIT: FCC200
-*	PURPOSE: Header file for rsa
+*	PURPOSE: Header file for main RSA implementation
 *   LAST MOD: 02/05/17
-*   REQUIRES: numberTheory.h
+*   REQUIRES: time.h, string.h numberTheory.h
 ***************************************************************************/
 
 #include <time.h>
 #include <string.h>
 #include "numberTheory.h"
 
-//FUNCTION POINTER
+//FUNCTION POINTER FOR MODE (ENCRYPT/DECRYPT)
 typedef int(*FuncPtr)(FILE*,FILE*);
 
 //CONSTANTS

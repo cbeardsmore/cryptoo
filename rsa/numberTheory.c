@@ -17,9 +17,7 @@
 
 int primalityTest( int64_t prime, int tests )
 {
-	int64_t a;
-	int64_t r;
-    int64_t exponent;
+	int64_t a, r, exponent;
 	int isPrime = TRUE;
 
 	for( int ii = 0; ii < tests; ii++ )
@@ -32,13 +30,14 @@ int primalityTest( int64_t prime, int tests )
         // if r not 1 or -1 it is 100% not prime
 		if( ! ( (r == 1) || (r == (prime-1))) )
 			return FALSE;
-
 	}
+    //can't prove that it's not prime, so assume prime with 99% certainty
 	return isPrime;
 }
 
 //------------------------------------------------------------------------------
 //NAME: generatePrime()
+//IMPORT: lower (int), upper (int)
 //EXPORT: newPrime (int64_t)
 //PURPOSE: Generate a random prime number between the two bounds given
 
@@ -48,8 +47,10 @@ int64_t generatePrime( int lower, int upper)
 
 	do
 	{
+        //generate number between lower and upper bound
 		newPrime = ( rand() % ( upper - lower) ) + lower;
 	}
+    //loop until we can be sure the number is a prime
 	while( !primalityTest( newPrime, PRIME_TESTS ) );
 
 	return newPrime;
@@ -66,7 +67,7 @@ int64_t modularExpo(int64_t base, int64_t exponent, int64_t modulus)
     int64_t result = 1;
     base = base % modulus;
 
-    //check upper limit
+    //check upper limit, no number can be greater than this
     if ( ( base > LIMIT ) || ( exponent > LIMIT ) || ( modulus > LIMIT ) )
         return -1;
 
@@ -128,7 +129,7 @@ int64_t extendedEuclid( int64_t a, int64_t n )
 //NAME: findGCD()
 //IMPORT: a (int64_t), b (int64_t)
 //EXPORT: gcd (int64_t)
-//PURPOSE: Find greatest common denominator of 2 numbers
+//PURPOSE: Recursively find greatest common denominator of 2 numbers
 
 int64_t findGCD( int64_t a, int64_t b )
 {
