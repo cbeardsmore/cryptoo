@@ -29,7 +29,8 @@ int main( int argc, char **argv )
     srand( time(NULL) );
 
     //generate keys on default
-    generateKeys();
+    if ( argc == 4 )
+        generateKeys();
 
     //read command line arguments, ignoring the first
 	modeFunc = readArgs( argc, argv );

@@ -4,11 +4,12 @@
 *	UNIT: FCC200
 *	PURPOSE: Header file for number theory functionality
 *   LAST MOD: 02/05/17
-*   REQUIRES: stdio.h, stdlib.h
+*   REQUIRES: stdio.h, stdlib.h, stdint.h
 ***************************************************************************/
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 
 //CONSTANTS
 #define PRIME_TESTS 25
